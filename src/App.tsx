@@ -139,6 +139,15 @@ const App = () => {
               <ContactSection mousePos={mousePos} />
             </div>
           </div>
+          {!isMobile && (
+            <>
+              <SectionDots
+                sections={sections}
+                activeIndex={activeIndex}
+                onDotClick={scrollToSection}
+              />
+            </>
+          )}
 
           {selectedProject && (
             <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
