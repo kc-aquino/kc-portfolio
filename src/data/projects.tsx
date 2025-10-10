@@ -1,0 +1,41 @@
+export const projects = [
+  {
+    title: 'CinePop',
+    tech: 'Next.js, React, TailwindCSS',
+    desc: 'Streaming platform with responsive design and content discovery features',
+    link: 'https://cinepop.film/',
+    role: 'UI/UX Design & Frontend Development',
+    color: 'from-red-500 to-orange-500',
+  },
+  {
+    title: 'NXI Portal',
+    tech: 'React Vite, TypeScript',
+    desc: 'Modern web portal with JWT authentication and interactive dashboards',
+    link: 'https://nxi.xyz/',
+    role: 'UI Design & Frontend Development',
+    color: 'from-blue-500 to-cyan-500',
+  },
+  {
+    title: 'CIM Platform',
+    tech: 'React Native, MongoDB, Firebase',
+    desc: 'Social media platform with AI integration and real-time features',
+    link: 'https://thesis-cim-23.onrender.com/',
+    role: 'Full Product Design & Development',
+    color: 'from-purple-500 to-pink-500',
+    award: true,
+  },
+  {
+    title: 'Adspace',
+    tech: 'React Native, Laravel',
+    desc: 'Digital signage platform with role-based access control',
+    role: 'UX Design & Mobile Development',
+    color: 'from-green-500 to-teal-500',
+  },
+  {
+    title: 'SMS System',
+    tech: 'Java, MySQL, PHP',
+    desc: 'Student Management System with MVC architecture',
+    role: 'Interface Design & Backend Integration',
+    color: 'from-yellow-500 to-orange-500',
+  },
+];

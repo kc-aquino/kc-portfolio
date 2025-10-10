@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Arizonia&family=Bonheur+Royale&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=BBH+Sans+Bogle&family=Bonheur+Royale&display=swap');
+@import 'tailwindcss';
+
+/* Custom fonts */
+.bonheur-royale-regular {
+  font-family: 'Bonheur Royale', cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+.bonheur-royale-bold {
+  font-family: 'Bonheur Royale', cursive;
+  font-weight: 700;
+  font-style: normal;
+}
+.bbh-sans-bogle-regular {
+  font-family: 'BBH Sans Bogle', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Custom selection color */
+::selection {
+  background: #faa5b9; /* your pinkAccent */
+  color: white; /* optional — makes highlighted text visible */
+}
+
+/* Vertical Marquee */
+.marquee-track {
+  /* track contains two stacked copies of the content */
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  /* ensure it starts at top of container */
+  transform: translateY(0);
+  animation-name: marquee-vertical-loop;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+}
+/* Each item uses vertical writing mode */
+.marquee-item {
+  display: block;
+  padding: 0.5rem 0; /* small spacing */
+  text-align: center;
+}
+/* Loop moves the track up by exactly half (one copy height),
+   so make sure both copies have equal height */
+@keyframes scroll-up {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+/* optional: pause on hover */
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+.lanyard-wrapper {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: scale(1);
+  transform-origin: center;
+}
