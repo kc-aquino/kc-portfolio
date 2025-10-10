@@ -72,6 +72,24 @@ const App = () => {
       ref.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  useEffect(() => {
+    if (!containerRef.current || isMobile) return;
+    const el = containerRef.current;
+    const handleWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; // touchpad case
+
+      e.preventDefault();
+      el.scrollBy({
+        left: e.deltaY,
+        behavior: 'smooth',
+      });
+    };
+
+    el.addEventListener('wheel', handleWheel, { passive: false });
+    return () => el.removeEventListener('wheel', handleWheel);
+  }, [isMobile]);
+
   // Track visible section for horizontal scroll
   useEffect(() => {
     if (!containerRef.current || isMobile) return;

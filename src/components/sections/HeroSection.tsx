@@ -21,8 +21,7 @@ const HeroSection: React.FC<HeroProps> = ({ mousePos, onEnter }) => {
         }}
         className="bonheur-royale-regular absolute top-6 left-8 z-20 cursor-pointer text-3xl text-white hover:scale-105"
         onMouseEnter={(e) => {
-          (e.currentTarget as HTMLDivElement).style.color = colors.pinkAccent;
-          (e.currentTarget as HTMLDivElement).style.textShadow = `0 0 12px ${colors.pinkAccent}`;
+          (e.currentTarget as HTMLDivElement).style.textShadow = `0 0 8px ${colors.pinkAccent}`;
         }}
         onMouseLeave={(e) => {
           (e.currentTarget as HTMLDivElement).style.color = 'white';

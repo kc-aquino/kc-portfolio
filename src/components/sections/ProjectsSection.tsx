@@ -1,6 +1,7 @@
 import React from 'react';
 import { ExternalLink } from 'lucide-react';
 import { projects } from '../../data/projects';
+import GrainTexture from '../GrainTexture';
 
 interface ProjectsProps {
   mousePos: { x: number; y: number };
@@ -10,9 +11,12 @@ interface ProjectsProps {
 const ProjectsSection: React.FC<ProjectsProps> = ({ mousePos, onSelect }) => (
   <section
     id="projects"
-    className="relative flex h-screen min-w-screen flex-shrink-0 items-center bg-zinc-950 px-20"
+    className="bg-zinc-850 relative flex h-screen min-w-screen flex-shrink-0 items-center px-20"
   >
-    <div className="mx-auto w-full max-w-7xl">
+    <GrainTexture />
+    <h1 className="text-7xl font-light text-white">Projects</h1>
+
+    {/* <div className="mx-auto w-full max-w-7xl">
       <div className="mb-16">
         <div className="mb-6 inline-block border border-zinc-800 px-4 py-2 text-xs tracking-widest text-zinc-500">
           SELECTED WORK
@@ -49,7 +53,7 @@ const ProjectsSection: React.FC<ProjectsProps> = ({ mousePos, onSelect }) => (
           </div>
         ))}
       </div>
-    </div>
+    </div> */}
   </section>
 );
 
