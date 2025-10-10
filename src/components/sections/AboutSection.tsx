@@ -1,6 +1,7 @@
 import React from 'react';
 import { Layout, Layers } from 'lucide-react';
 
+
 interface AboutProps {
   mousePos: { x: number; y: number };
 }
@@ -31,7 +32,7 @@ const AboutSection: React.FC<AboutProps> = ({ mousePos }) => (
             <span className="text-violet-400">development</span>
           </h2>
           <p className="text-lg leading-relaxed text-zinc-400">
-            I’m passionate about creating intuitive, visually appealing digital experiences. My work
+            I'm passionate about creating intuitive, visually appealing digital experiences. My work
             bridges design thinking with clean, functional code to deliver products that feel
             effortless to use.
           </p>

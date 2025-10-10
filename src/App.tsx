@@ -7,7 +7,6 @@ import ContactSection from './components/sections/ContactSection';
 
 import ProjectModal from './components/ProjectModal';
 import LoadingScreen from './components/LoadingScreen';
-import ScrollIndicator from './components/ScrollIndicator';
 import SectionDots from './components/SectionDots';
 import VerticalMarquee from './components/VerticalMarquee';
 
@@ -34,19 +33,21 @@ const App = () => {
       { id: 'skills', ref: skillsRef },
       { id: 'contact', ref: contactRef },
     ],
-    [heroRef, aboutRef, projectsRef, skillsRef, contactRef]
+    []
   );
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 1024);
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 1500);
-    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -71,32 +72,36 @@ const App = () => {
       ref.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
-
-  // Track visible section
+  // Track visible section for horizontal scroll
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || isMobile) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const index = sections.findIndex((s) => s.ref.current === entry.target);
-            if (index !== -1) setActiveIndex(index);
+    const handleScroll = () => {
+      const scrollLeft = containerRef.current!.scrollLeft;
+      setScrollX(scrollLeft);
+
+      const containerWidth = containerRef.current!.offsetWidth;
+      let currentIndex = 0;
+      sections.forEach((section, index) => {
+        const el = section.ref.current;
+        if (el) {
+          const sectionLeft = el.offsetLeft;
+          const sectionWidth = el.offsetWidth;
+          const center = sectionLeft + sectionWidth / 2;
+
+          if (scrollLeft + containerWidth / 2 >= center) {
+            currentIndex = index;
           }
-        });
-      },
-      {
-        root: isMobile ? null : containerRef.current,
-        threshold: 0.5,
-        rootMargin: '0px',
-      }
-    );
+        }
+      });
+      setActiveIndex(currentIndex);
+    };
 
-    sections.forEach((section) => {
-      if (section.ref.current) observer.observe(section.ref.current);
-    });
+    const ref = containerRef.current;
+    ref.addEventListener('scroll', handleScroll);
+    handleScroll();
 
-    return () => observer.disconnect();
+    return () => ref.removeEventListener('scroll', handleScroll);
   }, [sections, isMobile]);
 
   return (
@@ -116,7 +121,6 @@ const App = () => {
               <HeroSection mousePos={mousePos} onEnter={() => scrollToSection(projectsRef)} />
             </div>
 
-            {/* ✦ Vertical Marquee separator ✦ */}
             {!isMobile && <VerticalMarquee text="ABOUT " speed={6} />}
 
             <div ref={aboutRef}>
@@ -126,24 +130,15 @@ const App = () => {
             <div ref={projectsRef}>
               <ProjectsSection mousePos={mousePos} onSelect={setSelectedProject} />
             </div>
+
             <div ref={skillsRef}>
               <SkillsSection mousePos={mousePos} />
             </div>
+
             <div ref={contactRef}>
               <ContactSection mousePos={mousePos} />
             </div>
           </div>
-
-          {!isMobile && (
-            <>
-              <ScrollIndicator scrollX={scrollX} />
-              <SectionDots
-                sections={sections}
-                activeIndex={activeIndex}
-                onDotClick={scrollToSection}
-              />
-            </>
-          )}
 
           {selectedProject && (
             <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
