@@ -13,7 +13,8 @@ const ProjectsSection: React.FC<ProjectsProps> = ({ mousePos, onSelect }) => (
     id="projects"
     className="bg-zinc-850 relative flex h-screen min-w-screen flex-shrink-0 items-center px-20"
   >
-    <GrainTexture />
+    <GrainTexture opacity={0.3} blendMode="screen" />
+
     <h1 className="text-7xl font-light text-white">Projects</h1>
 
     {/* <div className="mx-auto w-full max-w-7xl">

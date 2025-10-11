@@ -2,6 +2,7 @@ import React from 'react';
 import { Layout, Layers } from 'lucide-react';
 import GrainTexture from '../GrainTexture';
 import Lanyard from '../reactbits/Lanyard/Lanyard';
+import SplitText from '../reactbits/SplitText/SplitText';
 
 interface AboutProps {
   mousePos: { x: number; y: number };
@@ -12,19 +13,44 @@ const AboutSection: React.FC<AboutProps> = ({ mousePos }) => (
     id="about"
     className="relative flex h-screen w-screen flex-shrink-0 border-l-4 border-zinc-200 bg-white"
   >
-    <GrainTexture />
+    <GrainTexture opacity={0.5} blendMode="multiply" />
 
     {/* Left Side — About Me Text */}
-    <div className="flex w-1/2 flex-col justify-center px-16">
-      <h2 className="mb-6 text-5xl font-bold text-zinc-800">About Me</h2>
-      <p className="max-w-md text-lg leading-relaxed text-zinc-600">
-        I’m a passionate <b>Frontend Developer</b> and <b>UI/UX Designer</b> who enjoys turning
-        ideas into interactive, human-centered digital experiences.
-      </p>
+    <div className="flex w-3/4 flex-col justify-center px-20">
+      <div className="max-w-3xl space-y-12">
+        <div className="space-y-12">
+          <div className="flex flex-wrap items-baseline gap-4">
+            <h1
+              className="text-5xl font-semibold whitespace-nowrap"
+              style={{
+                WebkitTextStroke: '2px black',
+                textStroke: '4px black',
+                paintOrder: 'stroke fill',
+              }}
+            >
+              Based in
+            </h1>
+            <h1
+              className="text-5xl font-semibold whitespace-nowrap text-white"
+              style={{
+                WebkitTextStroke: '2px black',
+                textStroke: '4px black',
+                paintOrder: 'stroke fill',
+              }}
+            >
+              Navotas, Metro Manila
+            </h1>
+          </div>
 
-      <div className="mt-8 flex gap-4 text-zinc-500">
-        <Layout />
-        <Layers />
+          <h2 className="text-6xl leading-tight font-light text-zinc-900">
+            Creating visually captivating UI and immersive digital experiences
+          </h2>
+        </div>
+        <p className="text-lg leading-relaxed text-zinc-600">
+          Blending the art of design with the precision of coding, I create digital experiences that
+          are visually stunning and functionally robust. I'm passionate about turning ideas into
+          interactive, human-centered products.
+        </p>
       </div>
     </div>
 

@@ -14,7 +14,7 @@ const VerticalMarquee: React.FC<VerticalMarqueeProps> = ({ text = 'TEXT HERE', s
   return (
     <div className="relative h-screen w-40 flex-shrink-0 overflow-hidden bg-white">
       {/* Grainy texture overlay */}
-      <GrainTexture />
+      <GrainTexture opacity={0.5} blendMode="multiply" />
 
       {/* Gradient fades */}
       <div
