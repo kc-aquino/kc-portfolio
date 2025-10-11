@@ -151,6 +151,10 @@ const App = () => {
               <ProjectsSection mousePos={mousePos} onSelect={setSelectedProject} />
             </div>
 
+            {/* Experience section */}
+
+            {/* Education Section */}
+
             <div ref={skillsRef}>
               <SkillsSection mousePos={mousePos} />
             </div>
