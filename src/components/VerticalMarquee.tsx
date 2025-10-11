@@ -5,29 +5,41 @@ import GrainTexture from './GrainTexture';
 interface VerticalMarqueeProps {
   text?: string;
   speed?: number;
+  darkMode?: boolean;
 }
 
-const VerticalMarquee: React.FC<VerticalMarqueeProps> = ({ text = 'TEXT HERE', speed = 12 }) => {
-  // Split text by space to create spacing between words
+const VerticalMarquee: React.FC<VerticalMarqueeProps> = ({
+  text = 'TEXT HERE',
+  speed = 12,
+  darkMode = false,
+}) => {
+  const blendMode = darkMode ? 'screen' : 'multiply';
+  const topGradient = darkMode
+    ? 'linear-gradient(to bottom, #18181b, transparent)'
+    : 'linear-gradient(to bottom, #ffffff, transparent)';
+  const bottomGradient = darkMode
+    ? 'linear-gradient(to top, #18181b, transparent)'
+    : 'linear-gradient(to top, #ffffff, transparent)';
+
   const words = text.split(' ').filter((word) => word.trim());
 
   return (
-    <div className="relative h-screen w-40 flex-shrink-0 overflow-hidden bg-white">
+    <div
+      className={`relative h-screen w-40 flex-shrink-0 overflow-hidden ${
+        darkMode ? 'bg-zinc-900' : 'bg-white'
+      }`}
+    >
       {/* Grainy texture overlay */}
-      <GrainTexture opacity={0.5} blendMode="multiply" />
+      <GrainTexture opacity={0.5} blendMode={blendMode} />
 
       {/* Gradient fades */}
       <div
         className="pointer-events-none absolute top-0 right-0 left-0 z-10 h-32"
-        style={{
-          background: 'linear-gradient(to bottom, #ffffff, transparent)',
-        }}
+        style={{ background: topGradient }}
       />
       <div
         className="pointer-events-none absolute right-0 bottom-0 left-0 z-10 h-32"
-        style={{
-          background: 'linear-gradient(to top, #ffffff, transparent)',
-        }}
+        style={{ background: bottomGradient }}
       />
 
       {/* Scrolling text container */}
@@ -37,7 +49,6 @@ const VerticalMarquee: React.FC<VerticalMarqueeProps> = ({ text = 'TEXT HERE', s
           animation: `scroll-up ${speed}s linear infinite`,
         }}
       >
-        {/* Repeat the pattern multiple times for seamless loop */}
         {[...Array(30)].map((_, i) => (
           <React.Fragment key={i}>
             {words.map((word, wordIndex) => (
@@ -47,13 +58,12 @@ const VerticalMarquee: React.FC<VerticalMarqueeProps> = ({ text = 'TEXT HERE', s
                   style={{
                     writingMode: 'vertical-rl',
                     textOrientation: 'mixed',
-                    color: colors.pinkAccent,
+                    color: darkMode ? 'white' : colors.pinkAccent,
                     letterSpacing: '0.1em',
                   }}
                 >
                   {word.trim()}
                 </div>
-                {/* Decorative diamond separator */}
                 <div
                   className="flex items-center justify-center py-4 text-2xl"
                   style={{

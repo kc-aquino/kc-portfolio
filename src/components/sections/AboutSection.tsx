@@ -55,7 +55,7 @@ const AboutSection: React.FC<AboutProps> = ({ mousePos }) => (
     </div>
 
     {/* Right Side — Lanyard */}
-    <div className="flex w-1/2 items-center justify-center">
+    <div className="flex w-1/2 items-center justify-center pb-20">
       <Lanyard />
     </div>
   </section>

@@ -139,11 +139,13 @@ const App = () => {
               <HeroSection mousePos={mousePos} onEnter={() => scrollToSection(projectsRef)} />
             </div>
 
-            {!isMobile && <VerticalMarquee text="ABOUT " speed={6} />}
+            {!isMobile && <VerticalMarquee text="ABOUT" speed={6} />}
 
             <div ref={aboutRef}>
               <AboutSection mousePos={mousePos} />
             </div>
+
+            {!isMobile && <VerticalMarquee text="PROJECTS" speed={6} darkMode={true} />}
 
             <div ref={projectsRef}>
               <ProjectsSection mousePos={mousePos} onSelect={setSelectedProject} />
