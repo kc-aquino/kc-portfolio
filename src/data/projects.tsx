@@ -1,41 +1,64 @@
-export const projects = [
+// src/data/projects.ts
+import cinepopThumbnail from '@/assets/projects/cinepop-home.png';
+import nxiThumbnail from '@/assets/projects/nxi-portal.png';
+import cimThumbnail from '@/assets/projects/cim-platform.png';
+
+export interface Project {
+  id: number;
+  title: string;
+  subtitle?: string;
+  techStack: string[];
+  thumbnail: string;
+  link?: string;
+  role?: string;
+  award?: boolean;
+}
+
+const projects: Project[] = [
   {
+    id: 1,
     title: 'CinePop',
-    tech: 'Next.js, React, TailwindCSS',
-    desc: 'Streaming platform with responsive design and content discovery features',
+    subtitle: 'Streaming platform with responsive design and content discovery features',
+    techStack: ['Next.js', 'React', 'TailwindCSS'],
+    thumbnail: cinepopThumbnail,
     link: 'https://cinepop.film/',
     role: 'UI/UX Design & Frontend Development',
-    color: 'from-red-500 to-orange-500',
   },
   {
+    id: 2,
     title: 'NXI Portal',
-    tech: 'React Vite, TypeScript',
-    desc: 'Modern web portal with JWT authentication and interactive dashboards',
+    subtitle: 'Modern web portal with JWT authentication and interactive dashboards',
+    techStack: ['React Vite', 'TypeScript'],
+    thumbnail: nxiThumbnail,
     link: 'https://nxi.xyz/',
     role: 'UI Design & Frontend Development',
-    color: 'from-blue-500 to-cyan-500',
   },
   {
+    id: 3,
     title: 'CIM Platform',
-    tech: 'React Native, MongoDB, Firebase',
-    desc: 'Social media platform with AI integration and real-time features',
+    subtitle: 'Social media platform with AI integration and real-time features',
+    techStack: ['React Native', 'MongoDB', 'Firebase'],
+    thumbnail: cimThumbnail,
     link: 'https://thesis-cim-23.onrender.com/',
     role: 'Full Product Design & Development',
-    color: 'from-purple-500 to-pink-500',
     award: true,
   },
   {
+    id: 4,
     title: 'Adspace',
-    tech: 'React Native, Laravel',
-    desc: 'Digital signage platform with role-based access control',
+    subtitle: 'Digital signage platform with role-based access control',
+    techStack: ['React Native', 'Laravel'],
+    thumbnail: '/thumbnails/adspace.png',
     role: 'UX Design & Mobile Development',
-    color: 'from-green-500 to-teal-500',
   },
   {
+    id: 5,
     title: 'SMS System',
-    tech: 'Java, MySQL, PHP',
-    desc: 'Student Management System with MVC architecture',
+    subtitle: 'Student Management System with MVC architecture',
+    techStack: ['Java', 'MySQL', 'PHP'],
+    thumbnail: '/thumbnails/sms.png',
     role: 'Interface Design & Backend Integration',
-    color: 'from-yellow-500 to-orange-500',
   },
 ];
+
+export default projects;

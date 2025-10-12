@@ -3,36 +3,10 @@ import colors from '../../style/colorPalette';
 import GrainTexture from '../GrainTexture';
 import CircularText from '../reactbits/CircularText/CircularText';
 import TiltedCard from '../reactbits/TiltedCard/TiltedCard';
+import projects from '../../data/projects';
 
 // Main ProjectsSection Component
 const ProjectsSection = ({ mousePos, onSelect }) => {
-  const projects = [
-    {
-      id: 1,
-      title: 'USAT.io',
-      subtitle: 'Landing Page',
-      techStack: ['React', 'TypeScript', 'Tailwind CSS'],
-      thumbnail:
-        'https://verpex.com/assets/uploads/images/blog/Business-Website-Verpex.webp?v=1706620702',
-    },
-    {
-      id: 2,
-      title: 'Twenty One (XXI)',
-      subtitle: 'Landing Page',
-      techStack: ['Next.js', 'GSAP', 'Framer Motion'],
-      thumbnail:
-        'https://verpex.com/assets/uploads/images/blog/Business-Website-Verpex.webp?v=1706620702',
-    },
-    {
-      id: 3,
-      title: 'Hong Kong Space Museum',
-      subtitle: 'Exhibition Interactive Panel',
-      techStack: ['Electron', 'Three.js', 'WebGL'],
-      thumbnail:
-        'https://verpex.com/assets/uploads/images/blog/Business-Website-Verpex.webp?v=1706620702',
-    },
-  ];
-
   return (
     <section
       id="projects"
@@ -44,7 +18,7 @@ const ProjectsSection = ({ mousePos, onSelect }) => {
         <div className="flex items-start justify-between gap-8">
           {/* Projects Grid */}
           <div className="flex flex-1 items-start justify-center gap-12">
-            {projects.map((project, index) => (
+            {projects.slice(0, 3).map((project, index) => (
               <div
                 key={project.id}
                 className={`group cursor-pointer transition-all duration-300 ${index === 1 ? 'mt-20' : ''}`}
@@ -52,23 +26,25 @@ const ProjectsSection = ({ mousePos, onSelect }) => {
               >
                 <TiltedCard
                   imageSrc={project.thumbnail}
-                  altText={project.title}
-                  captionText=""
-                  containerHeight="400px"
-                  containerWidth="480px"
-                  imageHeight="280px"
-                  imageWidth="480px"
+                  altText=""
+                  captionText={project.title}
+                  containerHeight="250px"
+                  containerWidth="500px"
+                  imageHeight="230px"
+                  imageWidth="500px"
                   rotateAmplitude={20}
                   scaleOnHover={1.2}
                   displayOverlayContent={false}
                 />
 
                 {/* Title & Subtitle */}
-                <div className="mb-3">
-                  <h3 className="mb-1 text-2xl font-bold text-white transition-colors duration-300 group-hover:text-pink-500">
+                <div className="mb-4">
+                  <h3 className="mb-2 text-3xl font-bold text-white transition-all duration-300 group-hover:text-[#FAA5B9] group-hover:drop-shadow-[0_0_20px_rgba(250,165,185,0.5)]">
                     {project.title}
                   </h3>
-                  <p className="text-base font-light text-zinc-400">{project.subtitle}</p>
+                  <p className="text-base font-light text-zinc-400/90 italic transition-colors duration-300 group-hover:text-zinc-300">
+                    {project.subtitle}
+                  </p>
                 </div>
 
                 {/* Tech Stack */}
@@ -87,7 +63,7 @@ const ProjectsSection = ({ mousePos, onSelect }) => {
           </div>
 
           {/* Circular "See More" Button  */}
-          <div className="ml-10 flex items-center justify-center self-center">
+          <div className="flex items-center justify-center self-center">
             <CircularText
               text="S e e  M o r e   •   S e e  M o r e   •  "
               onHover="goBonkers"
