@@ -28,7 +28,7 @@ const ProjectsSection = ({ mousePos, onSelect }) => {
                   imageSrc={project.thumbnail}
                   altText=""
                   captionText={project.title}
-                  containerHeight="250px"
+                  containerHeight="300px"
                   containerWidth="500px"
                   imageHeight="230px"
                   imageWidth="500px"
