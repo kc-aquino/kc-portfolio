@@ -74,20 +74,59 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (!containerRef.current || isMobile) return;
-    const el = containerRef.current;
-    const handleWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; // touchpad case
+    if (isMobile) return;
 
-      e.preventDefault();
-      el.scrollBy({
-        left: e.deltaY,
-        behavior: 'smooth',
-      });
+    let targetScrollLeft = 0;
+    let currentScrollLeft = 0;
+    let animationFrameId: number;
+
+    const smoothScroll = () => {
+      const container = containerRef.current;
+      if (!container) return;
+
+      // Smooth lerp (linear interpolation)
+      currentScrollLeft += (targetScrollLeft - currentScrollLeft) * 0.1;
+      container.scrollLeft = currentScrollLeft;
+
+      if (Math.abs(targetScrollLeft - currentScrollLeft) > 0.5) {
+        animationFrameId = requestAnimationFrame(smoothScroll);
+      }
     };
 
-    el.addEventListener('wheel', handleWheel, { passive: false });
-    return () => el.removeEventListener('wheel', handleWheel);
+    const handleWheel = (e: WheelEvent) => {
+      const container = containerRef.current;
+      if (!container) return;
+
+      // Check if we're trying to scroll horizontally
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Update target scroll position
+        targetScrollLeft += e.deltaY;
+        targetScrollLeft = Math.max(
+          0,
+          Math.min(targetScrollLeft, container.scrollWidth - container.clientWidth)
+        );
+
+        // Start smooth scrolling animation
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = requestAnimationFrame(smoothScroll);
+      }
+    };
+
+    // Initialize current scroll position
+    if (containerRef.current) {
+      currentScrollLeft = containerRef.current.scrollLeft;
+      targetScrollLeft = currentScrollLeft;
+    }
+
+    // Add listener to document to catch all scroll events
+    document.addEventListener('wheel', handleWheel, { passive: false });
+    return () => {
+      document.removeEventListener('wheel', handleWheel);
+      cancelAnimationFrame(animationFrameId);
+    };
   }, [isMobile]);
 
   // Track visible section for horizontal scroll
