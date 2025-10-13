@@ -1,8 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Arizonia&family=Bonheur+Royale&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=BBH+Sans+Bogle&family=Bonheur+Royale&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=BBH+Sans+Bogle&family=Bonheur+Royale&family=Fjalla+One&display=swap');
 @import 'tailwindcss';
 
 /* Custom fonts */
+/* Name on Hero Section */
 .bonheur-royale-regular {
   font-family: 'Bonheur Royale', cursive;
   font-weight: 400;
@@ -13,8 +15,15 @@
   font-weight: 700;
   font-style: normal;
 }
+/* Vertical Marquee */
 .bbh-sans-bogle-regular {
   font-family: 'BBH Sans Bogle', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+/* Projects Section Text */
+.fjalla-one-regular {
+  font-family: 'Fjalla One', sans-serif;
   font-weight: 400;
   font-style: normal;
 }
@@ -57,4 +66,19 @@
 /* optional: pause on hover */
 .marquee-track:hover {
   animation-play-state: paused;
+}
+
+/* Tag Cloud / Skills Section */
+.tagcloud--item {
+  color: #ffffff !important;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+}
+
+.tagcloud--item:hover {
+  color: #faa5b9 !important;
+  transform: scale(1.2);
+  text-shadow: 0 0 25px rgba(250, 165, 185, 0.8);
 }

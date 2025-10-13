@@ -1,13 +1,13 @@
-import { Figma, Palette, Layout, Layers } from 'lucide-react';
+// import { Figma, Palette, Layout, Layers } from 'lucide-react';
 
-export const designSkills = [
-  { name: 'Figma', icon: Figma },
-  { name: 'UI Design', icon: Palette },
-  { name: 'UX Design', icon: Layout },
-  { name: 'Prototyping', icon: Layers },
-  { name: 'Wireframing', icon: Layout },
-  { name: 'Design Systems', icon: Layers },
-];
+// export const designSkills = [
+//   { name: 'Figma', icon: Figma },
+//   { name: 'UI Design', icon: Palette },
+//   { name: 'UX Design', icon: Layout },
+//   { name: 'Prototyping', icon: Layers },
+//   { name: 'Wireframing', icon: Layout },
+//   { name: 'Design Systems', icon: Layers },
+// ];
 
 export const devSkills = [
   'React',
@@ -25,4 +25,15 @@ export const devSkills = [
   'Python',
   'Git',
   'REST APIs',
+];
+
+export const designSkills = [
+  'Figma',
+  'Photoshop',
+  'Illustrator',
+  'UI/UX',
+  'Prototyping',
+  'Branding',
+  'Wireframing',
+  'Design Systems',
 ];

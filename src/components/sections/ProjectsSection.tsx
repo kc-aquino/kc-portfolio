@@ -1,12 +1,11 @@
 import React from 'react';
-import colors from '../../style/colorPalette';
 import GrainTexture from '../GrainTexture';
 import CircularText from '../reactbits/CircularText/CircularText';
 import TiltedCard from '../reactbits/TiltedCard/TiltedCard';
 import projects from '../../data/projects';
 
 // Main ProjectsSection Component
-const ProjectsSection = ({ mousePos, onSelect }) => {
+const ProjectsSection = ({ mousePos, onSelect, onShowAllProjects }) => {
   return (
     <section
       id="projects"
@@ -22,12 +21,12 @@ const ProjectsSection = ({ mousePos, onSelect }) => {
               <div
                 key={project.id}
                 className={`group cursor-pointer transition-all duration-300 ${index === 1 ? 'mt-20' : ''}`}
-                onClick={() => onSelect(project)}
+                onClick={() => window.open(project.link, '_blank')}
               >
                 <TiltedCard
                   imageSrc={project.thumbnail}
                   altText=""
-                  captionText={project.title}
+                  captionText={project.techStack.join(' ♦ ')}
                   containerHeight="300px"
                   containerWidth="500px"
                   imageHeight="230px"
@@ -36,18 +35,16 @@ const ProjectsSection = ({ mousePos, onSelect }) => {
                   scaleOnHover={1.2}
                   displayOverlayContent={false}
                 />
-
                 {/* Title & Subtitle */}
                 <div className="mb-4">
-                  <h3 className="mb-2 text-3xl font-bold text-white transition-all duration-300 group-hover:text-[#FAA5B9] group-hover:drop-shadow-[0_0_20px_rgba(250,165,185,0.5)]">
+                  <h3 className="fjalla-one-regular mb-2 text-3xl font-bold text-white transition-all duration-300 group-hover:text-[#FAA5B9] group-hover:drop-shadow-[0_0_20px_rgba(250,165,185,0.5)]">
                     {project.title}
                   </h3>
-                  <p className="text-base font-light text-zinc-400/90 italic transition-colors duration-300 group-hover:text-zinc-300">
+                  <p className="fjalla-one-regular text-base font-light text-zinc-400/90 italic transition-colors duration-300 group-hover:text-zinc-300">
                     {project.subtitle}
                   </p>
                 </div>
-
-                {/* Tech Stack */}
+                {/* Tech Stack
                 <div className="flex flex-wrap gap-2">
                   {project.techStack.map((tech, techIndex) => (
                     <span
@@ -57,13 +54,16 @@ const ProjectsSection = ({ mousePos, onSelect }) => {
                       {tech}
                     </span>
                   ))}
-                </div>
+                </div> */}
               </div>
             ))}
           </div>
 
           {/* Circular "See More" Button  */}
-          <div className="flex items-center justify-center self-center">
+          <div
+            className="flex cursor-pointer items-center justify-center self-center"
+            onClick={onShowAllProjects}
+          >
             <CircularText
               text="S e e  M o r e   •   S e e  M o r e   •  "
               onHover="goBonkers"

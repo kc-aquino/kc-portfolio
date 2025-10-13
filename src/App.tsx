@@ -9,6 +9,8 @@ import ProjectModal from './components/ProjectModal';
 import LoadingScreen from './components/LoadingScreen';
 import SectionDots from './components/SectionDots';
 import VerticalMarquee from './components/VerticalMarquee';
+import AllProjectsPage from './components/AllProjectsPage';
+import projects from './data/projects';
 
 const App = () => {
   const [scrollX, setScrollX] = useState(0);
@@ -24,6 +26,7 @@ const App = () => {
   const projectsRef = useRef<HTMLDivElement>(null);
   const skillsRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
+  const [showAllProjectsPage, setShowAllProjectsPage] = useState(false);
 
   const sections = useMemo(
     () => [
@@ -74,7 +77,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (isMobile) return;
+    if (isMobile || showAllProjectsPage) return;
 
     let targetScrollLeft = 0;
     let currentScrollLeft = 0;
@@ -94,6 +97,11 @@ const App = () => {
     };
 
     const handleWheel = (e: WheelEvent) => {
+      // Don't hijack scroll if modal is open
+      if (document.body.hasAttribute('data-modal-open')) {
+        return;
+      }
+
       const container = containerRef.current;
       if (!container) return;
 
@@ -127,7 +135,7 @@ const App = () => {
       document.removeEventListener('wheel', handleWheel);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [isMobile]);
+  }, [isMobile, showAllProjectsPage]); // Add showAllProjectsPage to dependencies
 
   // Track visible section for horizontal scroll
   useEffect(() => {
@@ -162,53 +170,67 @@ const App = () => {
   }, [sections, isMobile]);
 
   return (
-    <div className="relative h-screen overflow-hidden bg-zinc-950">
+    <div
+      className={`relative bg-zinc-950 ${showAllProjectsPage ? 'h-auto overflow-y-auto' : 'h-screen overflow-hidden'}`}
+    >
       <LoadingScreen isLoading={isLoading} />
       {!isLoading && (
         <>
-          <div
-            ref={containerRef}
-            className={`flex ${
-              isMobile
-                ? 'h-auto flex-col overflow-y-auto'
-                : 'h-full flex-row overflow-x-auto scroll-smooth'
-            }`}
-          >
-            <div ref={heroRef}>
-              <HeroSection mousePos={mousePos} onEnter={() => scrollToSection(projectsRef)} />
-            </div>
-
-            {!isMobile && <VerticalMarquee text="ABOUT" speed={6} />}
-
-            <div ref={aboutRef}>
-              <AboutSection mousePos={mousePos} />
-            </div>
-
-            {!isMobile && <VerticalMarquee text="PROJECTS" speed={6} darkMode={true} />}
-
-            <div ref={projectsRef}>
-              <ProjectsSection mousePos={mousePos} onSelect={setSelectedProject} />
-            </div>
-
-            {/* Experience section */}
-
-            {/* Education Section */}
-
-            <div ref={skillsRef}>
-              <SkillsSection mousePos={mousePos} />
-            </div>
-
-            <div ref={contactRef}>
-              <ContactSection mousePos={mousePos} />
-            </div>
-          </div>
-          {!isMobile && (
+          {showAllProjectsPage ? (
+            <AllProjectsPage
+              projects={projects}
+              onBack={() => setShowAllProjectsPage(false)}
+              onSelectProject={setSelectedProject}
+            />
+          ) : (
             <>
-              <SectionDots
-                sections={sections}
-                activeIndex={activeIndex}
-                onDotClick={scrollToSection}
-              />
+              <div
+                ref={containerRef}
+                className={`flex ${
+                  isMobile
+                    ? 'h-auto flex-col overflow-y-auto'
+                    : 'h-full flex-row overflow-x-auto scroll-smooth'
+                }`}
+              >
+                <div ref={heroRef}>
+                  <HeroSection mousePos={mousePos} onEnter={() => scrollToSection(projectsRef)} />
+                </div>
+
+                {!isMobile && <VerticalMarquee text="ABOUT" speed={6} />}
+
+                <div ref={aboutRef}>
+                  <AboutSection mousePos={mousePos} />
+                </div>
+
+                {!isMobile && <VerticalMarquee text="PROJECTS" speed={6} darkMode={true} />}
+
+                <div ref={projectsRef}>
+                  <ProjectsSection
+                    mousePos={mousePos}
+                    onSelect={setSelectedProject}
+                    onShowAllProjects={() => setShowAllProjectsPage(true)}
+                  />
+                </div>
+
+                {/* Experience section */}
+
+                {/* Education Section */}
+
+                <div ref={skillsRef}>
+                  <SkillsSection mousePos={mousePos} />
+                </div>
+
+                <div ref={contactRef}>
+                  <ContactSection mousePos={mousePos} />
+                </div>
+              </div>
+              {!isMobile && (
+                <SectionDots
+                  sections={sections}
+                  activeIndex={activeIndex}
+                  onDotClick={scrollToSection}
+                />
+              )}
             </>
           )}
 
