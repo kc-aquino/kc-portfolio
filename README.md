@@ -1,11 +1,11 @@
 # 💡 Design Thinking Meets Code Execution 🚀
 
 <p align="center">
-  Hey there! I’m <b>KC</b> — a <b>UI/UX Designer</b> and <b>Frontend Developer</b> who loves blending art and logic ✨
+  Hey there! I’m <b>KC</b> — a <b>UI/UX Designer</b> and <b>Full Stack Developer</b> who loves blending art and logic ✨
 </p>
 
 I bring ideas to life through **human-centered design** and **clean, responsive code**.
-Whether it’s crafting wireframes in **Figma** or building sleek interfaces with **React + Tailwind**, I live for the magic that happens when design meets development 💖
+Whether it’s crafting wireframes in **Figma** or building sleek interfaces with **React + Tailwind**, I live for the magic that happens when design meets development
 
 ---
 
