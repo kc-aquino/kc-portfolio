@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import HeroSection from './components/sections/HeroSection';
 import AboutSection from './components/sections/AboutSection';
 import ProjectsSection from './components/sections/ProjectsSection';
-import SkillsSection from './components/sections/SkillsSection';
 import ContactSection from './components/sections/ContactSection';
+import EducationSection from './components/sections/EducationSection';
+import ExperienceSection from './components/sections/ExperienceSection';
 
 import ProjectModal from './components/ProjectModal';
 import LoadingScreen from './components/LoadingScreen';
@@ -24,8 +25,10 @@ const App = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
   const projectsRef = useRef<HTMLDivElement>(null);
-  const skillsRef = useRef<HTMLDivElement>(null);
+  const experienceRef = useRef<HTMLDivElement>(null);
+  const educationRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
+
   const [showAllProjectsPage, setShowAllProjectsPage] = useState(false);
 
   const sections = useMemo(
@@ -33,7 +36,8 @@ const App = () => {
       { id: 'hero', ref: heroRef },
       { id: 'about', ref: aboutRef },
       { id: 'projects', ref: projectsRef },
-      { id: 'skills', ref: skillsRef },
+      { id: 'experience', ref: experienceRef },
+      { id: 'education', ref: educationRef },
       { id: 'contact', ref: contactRef },
     ],
     []
@@ -212,12 +216,12 @@ const App = () => {
                   />
                 </div>
 
-                {/* Experience section */}
+                <div ref={experienceRef}>
+                  <ExperienceSection mousePos={mousePos} />
+                </div>
 
-                {/* Education Section */}
-
-                <div ref={skillsRef}>
-                  <SkillsSection mousePos={mousePos} />
+                <div ref={educationRef}>
+                  <EducationSection mousePos={mousePos} />
                 </div>
 
                 <div ref={contactRef}>

@@ -69,7 +69,7 @@ const HeroSection: React.FC<HeroProps> = ({ mousePos, onEnter }) => {
           <div className="h-8 w-px bg-zinc-700"></div>
           <div className="flex items-center gap-3 text-sm tracking-wide text-zinc-400">
             <Code size={18} />
-            <span>FRONTEND DEVELOPER</span>
+            <span>FULL STACK DEVELOPER</span>
           </div>
         </div>
 

@@ -1,8 +1,6 @@
 import React from 'react';
-import { Layout, Layers } from 'lucide-react';
 import GrainTexture from '../GrainTexture';
 import Lanyard from '../reactbits/Lanyard/Lanyard';
-import SplitText from '../reactbits/SplitText/SplitText';
 
 interface AboutProps {
   mousePos: { x: number; y: number };
