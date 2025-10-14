@@ -4,8 +4,11 @@ import CircularText from '../reactbits/CircularText/CircularText';
 import TiltedCard from '../reactbits/TiltedCard/TiltedCard';
 import projects from '../../data/projects';
 
-// Main ProjectsSection Component
-const ProjectsSection = ({ mousePos, onSelect, onShowAllProjects }) => {
+type ProjectsSectionProps = {
+  onShowAllProjects: () => void;
+};
+
+const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onShowAllProjects }) => {
   return (
     <section
       id="projects"
@@ -26,7 +29,7 @@ const ProjectsSection = ({ mousePos, onSelect, onShowAllProjects }) => {
                 <TiltedCard
                   imageSrc={project.thumbnail}
                   altText=""
-                  captionText={project.techStack.join(' ♦ ')}
+                  captionText={(project.techStack || []).join(' ♦ ')}
                   containerHeight="300px"
                   containerWidth="500px"
                   imageHeight="230px"

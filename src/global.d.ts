@@ -1,5 +1,7 @@
 export {};
 
+declare module 'react-transition-group';
+
 declare module '*.glb';
 
 declare module '*.png';

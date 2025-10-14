@@ -2,9 +2,9 @@ import React from 'react';
 import colors from '../style/colorPalette';
 
 interface SectionDotsProps {
-  sections: { id: string; ref: React.RefObject<HTMLDivElement> }[];
+  sections: { id: string; ref: React.RefObject<HTMLDivElement | null> }[];
   activeIndex: number;
-  onDotClick: (ref: React.RefObject<HTMLDivElement>) => void;
+  onDotClick: (ref: React.RefObject<HTMLDivElement | null>) => void;
 }
 
 const SectionDots: React.FC<SectionDotsProps> = ({ sections, activeIndex, onDotClick }) => {

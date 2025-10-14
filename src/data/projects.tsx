@@ -4,17 +4,18 @@ import nxiThumbnail from '@/assets/projects/nxi-portal.png';
 import cimThumbnail from '@/assets/projects/cim-platform.png';
 
 export interface Project {
-  id: number;
+  id: string | number;
   title: string;
   subtitle?: string;
-  techStack: string[];
-  thumbnail: string;
+  description?: string;
+  thumbnail?: string;
   link?: string;
+  techStack?: string[];
   role?: string;
   award?: boolean;
 }
 
-const projects: Project[] = [
+export const projects: Project[] = [
   {
     id: 1,
     title: 'CinePop Web Platform',

@@ -1,12 +1,7 @@
-import React from 'react';
 import GrainTexture from '../GrainTexture';
 import Lanyard from '../reactbits/Lanyard/Lanyard';
 
-interface AboutProps {
-  mousePos: { x: number; y: number };
-}
-
-const AboutSection: React.FC<AboutProps> = ({ mousePos }) => (
+const AboutSection = () => (
   <section
     id="about"
     className="relative flex h-screen w-screen flex-shrink-0 border-l-4 border-zinc-200 bg-white"
@@ -21,8 +16,7 @@ const AboutSection: React.FC<AboutProps> = ({ mousePos }) => (
             <h1
               className="text-5xl font-semibold whitespace-nowrap"
               style={{
-                WebkitTextStroke: '2px black',
-                textStroke: '4px black',
+                WebkitTextStroke: '4px black',
                 paintOrder: 'stroke fill',
               }}
             >
@@ -31,8 +25,7 @@ const AboutSection: React.FC<AboutProps> = ({ mousePos }) => (
             <h1
               className="text-5xl font-semibold whitespace-nowrap text-white"
               style={{
-                WebkitTextStroke: '2px black',
-                textStroke: '4px black',
+                WebkitTextStroke: '4px black',
                 paintOrder: 'stroke fill',
               }}
             >

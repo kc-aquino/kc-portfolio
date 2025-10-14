@@ -1,13 +1,8 @@
-import React from 'react';
 import { Mail, Github, Facebook, Linkedin, FileText } from 'lucide-react';
 import colors from '../../style/colorPalette';
 import Waves from '../reactbits/Waves/Waves';
 
-interface ContactProps {
-  mousePos: { x: number; y: number };
-}
-
-const ContactSection: React.FC<ContactProps> = ({ mousePos }) => (
+const ContactSection = () => (
   <section className="relative flex h-screen min-w-screen flex-shrink-0 items-center justify-center bg-zinc-950 px-20">
     <Waves
       lineColor="#fff"

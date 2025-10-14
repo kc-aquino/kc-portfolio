@@ -5,11 +5,11 @@ import colors from '../../style/colorPalette';
 interface HeroProps {
   mousePos: { x: number; y: number };
   onEnter: () => void;
-  scrollToSection: (ref: React.RefObject<HTMLDivElement>) => void;
-  sections: { id: string; ref: React.RefObject<HTMLDivElement> }[];
+  scrollToSection: (ref: React.RefObject<HTMLDivElement | null>) => void;
+  sections: { id: string; ref: React.RefObject<HTMLDivElement | null> }[];
 }
 
-const HeroSection: React.FC<HeroProps> = ({ mousePos, onEnter, scrollToSection, sections }) => {
+const HeroSection: React.FC<HeroProps> = ({ mousePos, scrollToSection, sections }) => {
   const aboutRef = sections.find((s) => s.id === 'about')?.ref;
   const projectsRef = sections.find((s) => s.id === 'projects')?.ref;
 

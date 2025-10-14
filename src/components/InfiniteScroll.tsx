@@ -1,7 +1,21 @@
 import React, { useRef, useLayoutEffect } from 'react';
 import { motion, useAnimationFrame, useMotionValue, useTransform } from 'motion/react';
 
-function useElementWidth(ref) {
+interface InfiniteScrollProps {
+  text: string;
+  baseVelocity?: number;
+  direction?: 'left' | 'right';
+  textClassName?: string;
+  numCopies?: number;
+  containerStyle?: React.CSSProperties;
+  textColor?: string;
+  textVariant?: 'solid' | 'mixed';
+  strokeColor?: string;
+  strokeWidth?: string;
+  solidColor?: string;
+}
+
+function useElementWidth(ref: React.RefObject<HTMLElement>) {
   const [width, setWidth] = React.useState(0);
 
   useLayoutEffect(() => {
@@ -19,25 +33,25 @@ function useElementWidth(ref) {
   return width;
 }
 
-const InfiniteScroll = ({
+const InfiniteScroll: React.FC<InfiniteScrollProps> = ({
   text,
   baseVelocity = 2,
-  direction = 'right', // 'left' or 'right'
+  direction = 'right',
   textClassName = '',
   numCopies = 8,
   containerStyle = {},
   textColor = '',
-  textVariant = 'solid', // 'solid' | 'mixed'
+  textVariant = 'solid',
   strokeColor = 'white',
   strokeWidth = '2px',
   solidColor = 'white',
 }) => {
   const baseX = useMotionValue(0);
-  const copyRef = useRef(null);
-  const copyWidth = useElementWidth(copyRef);
+  const copyRef = useRef<HTMLElement>(null);
+  const copyWidth = useElementWidth(copyRef as React.RefObject<HTMLElement>);
 
   // wrap function keeps motion continuous
-  function wrap(min, max, v) {
+  function wrap(min: number, max: number, v: number): number {
     const range = max - min;
     const mod = (((v - min) % range) + range) % range;
     return mod + min;
@@ -50,29 +64,26 @@ const InfiniteScroll = ({
   });
 
   // motion frame for continuous movement
-  useAnimationFrame((t, delta) => {
+  useAnimationFrame((_t, delta) => {
     const moveBy = baseVelocity * (delta / 1000) * 100;
-    // ✅ reverse direction when scrolling left
     const directionMultiplier = direction === 'left' ? -1 : 1;
     baseX.set(baseX.get() + moveBy * directionMultiplier);
   });
 
   // style variants
-  const getTextStyle = (index) => {
+  const getTextStyle = (index: number): React.CSSProperties => {
     if (textVariant === 'mixed') {
       const isOutlined = index % 2 === 0;
       if (isOutlined) {
         return {
           color: 'transparent',
           WebkitTextStroke: `${strokeWidth} ${strokeColor || textColor || solidColor}`,
-          textStroke: `${strokeWidth} ${strokeColor || textColor || solidColor}`,
           paintOrder: 'stroke fill',
         };
       } else {
         return { color: textColor || solidColor };
       }
     }
-    // solid variant
     return { color: textColor || solidColor };
   };
 

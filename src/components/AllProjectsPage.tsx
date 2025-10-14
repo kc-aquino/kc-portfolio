@@ -1,8 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 
-const AllProjectsPage = ({ projects, onBack, onSelectProject }) => {
-  const [hoveredIndex, setHoveredIndex] = useState(null);
+interface Project {
+  id: string | number;
+  title: string;
+  subtitle?: string;
+  description?: string;
+  thumbnail?: string;
+  link?: string;
+  techStack?: string[];
+}
+
+interface AllProjectsPageProps {
+  projects: Project[];
+  onBack: () => void;
+  onSelectProject?: (project: Project) => void;
+}
+
+const AllProjectsPage: React.FC<AllProjectsPageProps> = ({ projects, onBack, onSelectProject }) => {
+  const [_hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
     <div className="relative min-h-screen bg-zinc-950">

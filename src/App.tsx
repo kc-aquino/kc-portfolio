@@ -12,10 +12,11 @@ import SectionDots from './components/SectionDots';
 import VerticalMarquee from './components/VerticalMarquee';
 import AllProjectsPage from './components/AllProjectsPage';
 import projects from './data/projects';
+import type { Project } from './data/projects';
 
 const App = () => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -74,15 +75,17 @@ const App = () => {
   }, []);
 
   // --- Scroll to section ---
-  const scrollToSection = (ref: React.RefObject<HTMLDivElement>) => {
-    if (!ref.current) return;
+  const scrollToSection = (ref: React.RefObject<HTMLDivElement | null>) => {
+    if (ref.current) {
+      ref.current.scrollIntoView({ behavior: 'smooth' });
+    }
 
     scrollLockRef.current = true;
     setTimeout(() => (scrollLockRef.current = false), 1500);
 
     const container = containerRef.current;
     if (container && !isMobile) {
-      const targetPosition = ref.current.offsetLeft;
+      const targetPosition = ref.current?.offsetLeft ?? 0;
 
       // Sync scroll values
       targetScrollLeftRef.current = targetPosition;
@@ -96,7 +99,7 @@ const App = () => {
       const sectionIndex = sections.findIndex((s) => s.ref === ref);
       if (sectionIndex !== -1) setActiveIndex(sectionIndex);
     } else {
-      ref.current.scrollIntoView({ behavior: 'smooth' });
+      ref.current!.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -236,17 +239,13 @@ const App = () => {
                 {!isMobile && <VerticalMarquee text="ABOUT" speed={6} />}
 
                 <div ref={aboutRef}>
-                  <AboutSection mousePos={mousePos} />
+                  <AboutSection />
                 </div>
 
                 {!isMobile && <VerticalMarquee text="PROJECTS" speed={6} darkMode={true} />}
 
                 <div ref={projectsRef}>
-                  <ProjectsSection
-                    mousePos={mousePos}
-                    onSelect={setSelectedProject}
-                    onShowAllProjects={() => setShowAllProjectsPage(true)}
-                  />
+                  <ProjectsSection onShowAllProjects={() => setShowAllProjectsPage(true)} />
                 </div>
 
                 <div ref={experienceRef}>
@@ -258,7 +257,7 @@ const App = () => {
                 </div>
 
                 <div ref={contactRef}>
-                  <ContactSection mousePos={mousePos} />
+                  <ContactSection />
                 </div>
               </div>
 

@@ -13,12 +13,21 @@ import {
 } from '@react-three/rapier';
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
 import * as THREE from 'three';
+import type { RigidBodyProps } from '@react-three/rapier';
 
-// replace with your own imports, see the usage snippet for details
 import cardGLB from '@/assets/lanyard/card.glb';
 import lanyard from '@/assets/lanyard/lanyard.png';
 
+// Extend Three.js with meshline
 extend({ MeshLineGeometry, MeshLineMaterial });
+
+// --- TypeScript declaration for JSX ---
+declare module '@react-three/fiber' {
+  interface ThreeElements {
+    meshLineGeometry: any;
+    meshLineMaterial: any;
+  }
+}
 
 interface LanyardProps {
   position?: [number, number, number];
@@ -85,7 +94,6 @@ interface BandProps {
 }
 
 function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
-  // Using "any" for refs since the exact types depend on Rapier's internals
   const band = useRef<any>(null);
   const fixed = useRef<any>(null);
   const j1 = useRef<any>(null);
@@ -131,7 +139,6 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
     const handleResize = (): void => {
       setIsSmall(window.innerWidth < 1024);
     };
-
     window.addEventListener('resize', handleResize);
     return (): void => window.removeEventListener('resize', handleResize);
   }, []);
@@ -264,6 +271,8 @@ function Band({ maxSpeed = 50, minSpeed = 0 }: BandProps) {
           </group>
         </RigidBody>
       </group>
+
+      {/* MeshLine for the band */}
       <mesh ref={band}>
         <meshLineGeometry />
         <meshLineMaterial

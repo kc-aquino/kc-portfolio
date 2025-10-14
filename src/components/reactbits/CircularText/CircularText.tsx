@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion, useAnimation, useMotionValue, MotionValue } from 'motion/react';
+
 interface CircularTextProps {
   text: string;
   spinDuration?: number;
@@ -49,7 +50,8 @@ const CircularText: React.FC<CircularTextProps> = ({
 
     if (!onHover) return;
 
-    let transitionConfig: ReturnType<typeof getTransition> | Transition;
+    // Make transitionConfig flexible to allow spring overrides
+    let transitionConfig: Partial<ReturnType<typeof getTransition>> = {};
     let scaleVal = 1;
 
     switch (onHover) {
@@ -60,8 +62,8 @@ const CircularText: React.FC<CircularTextProps> = ({
         transitionConfig = getTransition(spinDuration / 4, start);
         break;
       case 'pause':
+        // Only scale transition; keep rotation static
         transitionConfig = {
-          rotate: { type: 'spring', damping: 20, stiffness: 300 },
           scale: { type: 'spring', damping: 20, stiffness: 300 },
         };
         break;
