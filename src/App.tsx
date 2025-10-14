@@ -14,13 +14,14 @@ import AllProjectsPage from './components/AllProjectsPage';
 import projects from './data/projects';
 
 const App = () => {
-  const [scrollX, setScrollX] = useState(0);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [selectedProject, setSelectedProject] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [showAllProjectsPage, setShowAllProjectsPage] = useState(false);
 
+  // --- Refs ---
   const containerRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
@@ -29,8 +30,12 @@ const App = () => {
   const educationRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
 
-  const [showAllProjectsPage, setShowAllProjectsPage] = useState(false);
+  // Persistent scroll state
+  const scrollLockRef = useRef(false);
+  const targetScrollLeftRef = useRef(0);
+  const currentScrollLeftRef = useRef(0);
 
+  // --- Section Refs Map ---
   const sections = useMemo(
     () => [
       { id: 'hero', ref: heroRef },
@@ -43,13 +48,13 @@ const App = () => {
     []
   );
 
+  // --- Loading screen delay ---
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
+    const timer = setTimeout(() => setIsLoading(false), 1500);
     return () => clearTimeout(timer);
   }, []);
 
+  // --- Responsive check ---
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 1024);
     checkMobile();
@@ -57,6 +62,7 @@ const App = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // --- Mouse position ---
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const x = e.clientX / window.innerWidth - 0.5;
@@ -67,115 +73,137 @@ const App = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
+  // --- Scroll to section ---
   const scrollToSection = (ref: React.RefObject<HTMLDivElement>) => {
     if (!ref.current) return;
 
-    if (containerRef.current && !isMobile) {
-      containerRef.current.scrollTo({
-        left: ref.current.offsetLeft,
+    scrollLockRef.current = true;
+    setTimeout(() => (scrollLockRef.current = false), 1500);
+
+    const container = containerRef.current;
+    if (container && !isMobile) {
+      const targetPosition = ref.current.offsetLeft;
+
+      // Sync scroll values
+      targetScrollLeftRef.current = targetPosition;
+      currentScrollLeftRef.current = targetPosition;
+
+      container.scrollTo({
+        left: targetPosition,
         behavior: 'smooth',
       });
+
+      const sectionIndex = sections.findIndex((s) => s.ref === ref);
+      if (sectionIndex !== -1) setActiveIndex(sectionIndex);
     } else {
       ref.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
+  // --- Wheel to horizontal scroll ---
   useEffect(() => {
     if (isMobile || showAllProjectsPage) return;
 
-    let targetScrollLeft = 0;
-    let currentScrollLeft = 0;
     let animationFrameId: number;
 
     const smoothScroll = () => {
       const container = containerRef.current;
       if (!container) return;
 
-      // Smooth lerp (linear interpolation)
-      currentScrollLeft += (targetScrollLeft - currentScrollLeft) * 0.1;
-      container.scrollLeft = currentScrollLeft;
+      currentScrollLeftRef.current +=
+        (targetScrollLeftRef.current - currentScrollLeftRef.current) * 0.1;
+      container.scrollLeft = currentScrollLeftRef.current;
 
-      if (Math.abs(targetScrollLeft - currentScrollLeft) > 0.5) {
+      if (Math.abs(targetScrollLeftRef.current - currentScrollLeftRef.current) > 0.5) {
         animationFrameId = requestAnimationFrame(smoothScroll);
       }
     };
 
     const handleWheel = (e: WheelEvent) => {
-      // Don't hijack scroll if modal is open
-      if (document.body.hasAttribute('data-modal-open')) {
-        return;
-      }
+      if (scrollLockRef.current) return;
+      if (document.body.hasAttribute('data-modal-open')) return;
 
       const container = containerRef.current;
       if (!container) return;
 
-      // Check if we're trying to scroll horizontally
       if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
         e.preventDefault();
         e.stopPropagation();
 
-        // Update target scroll position
-        targetScrollLeft += e.deltaY;
-        targetScrollLeft = Math.max(
+        targetScrollLeftRef.current += e.deltaY;
+        targetScrollLeftRef.current = Math.max(
           0,
-          Math.min(targetScrollLeft, container.scrollWidth - container.clientWidth)
+          Math.min(targetScrollLeftRef.current, container.scrollWidth - container.clientWidth)
         );
 
-        // Start smooth scrolling animation
         cancelAnimationFrame(animationFrameId);
         animationFrameId = requestAnimationFrame(smoothScroll);
       }
     };
 
-    // Initialize current scroll position
     if (containerRef.current) {
-      currentScrollLeft = containerRef.current.scrollLeft;
-      targetScrollLeft = currentScrollLeft;
+      currentScrollLeftRef.current = containerRef.current.scrollLeft;
+      targetScrollLeftRef.current = currentScrollLeftRef.current;
     }
 
-    // Add listener to document to catch all scroll events
     document.addEventListener('wheel', handleWheel, { passive: false });
     return () => {
       document.removeEventListener('wheel', handleWheel);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [isMobile, showAllProjectsPage]); // Add showAllProjectsPage to dependencies
+  }, [isMobile, showAllProjectsPage]);
 
-  // Track visible section for horizontal scroll
+  // --- Track visible section ---
   useEffect(() => {
     if (!containerRef.current || isMobile) return;
 
-    const handleScroll = () => {
-      const scrollLeft = containerRef.current!.scrollLeft;
-      setScrollX(scrollLeft);
+    const container = containerRef.current;
 
-      const containerWidth = containerRef.current!.offsetWidth;
+    const updateActiveSection = () => {
+      const scrollLeft = container.scrollLeft;
+      const containerWidth = container.offsetWidth;
+
       let currentIndex = 0;
-      sections.forEach((section, index) => {
-        const el = section.ref.current;
-        if (el) {
-          const sectionLeft = el.offsetLeft;
-          const sectionWidth = el.offsetWidth;
-          const center = sectionLeft + sectionWidth / 2;
+      for (let i = 0; i < sections.length; i++) {
+        const el = sections[i].ref.current;
+        if (!el) continue;
+        const left = el.offsetLeft;
+        const right = left + el.offsetWidth;
+        const middle = scrollLeft + containerWidth / 2;
 
-          if (scrollLeft + containerWidth / 2 >= center) {
-            currentIndex = index;
-          }
+        if (middle >= left && middle < right) {
+          currentIndex = i;
+          break;
         }
-      });
+      }
       setActiveIndex(currentIndex);
     };
 
-    const ref = containerRef.current;
-    ref.addEventListener('scroll', handleScroll);
-    handleScroll();
+    // Update continuously during scroll animation
+    const handleScroll = () => updateActiveSection();
+    container.addEventListener('scroll', handleScroll);
+    updateActiveSection();
 
-    return () => ref.removeEventListener('scroll', handleScroll);
+    // Also run it every animation frame to sync with smooth scrolling
+    let frameId: number;
+    const syncActive = () => {
+      updateActiveSection();
+      frameId = requestAnimationFrame(syncActive);
+    };
+    frameId = requestAnimationFrame(syncActive);
+
+    return () => {
+      container.removeEventListener('scroll', handleScroll);
+      cancelAnimationFrame(frameId);
+    };
   }, [sections, isMobile]);
 
+  // --- Render ---
   return (
     <div
-      className={`relative bg-zinc-950 ${showAllProjectsPage ? 'h-auto overflow-y-auto' : 'h-screen overflow-hidden'}`}
+      className={`relative bg-zinc-950 ${
+        showAllProjectsPage ? 'h-auto overflow-y-auto' : 'h-screen overflow-hidden'
+      }`}
     >
       <LoadingScreen isLoading={isLoading} />
       {!isLoading && (
@@ -197,7 +225,12 @@ const App = () => {
                 }`}
               >
                 <div ref={heroRef}>
-                  <HeroSection mousePos={mousePos} onEnter={() => scrollToSection(projectsRef)} />
+                  <HeroSection
+                    mousePos={mousePos}
+                    onEnter={() => scrollToSection(projectsRef)}
+                    scrollToSection={scrollToSection}
+                    sections={sections}
+                  />
                 </div>
 
                 {!isMobile && <VerticalMarquee text="ABOUT" speed={6} />}
@@ -228,6 +261,7 @@ const App = () => {
                   <ContactSection mousePos={mousePos} />
                 </div>
               </div>
+
               {!isMobile && (
                 <SectionDots
                   sections={sections}

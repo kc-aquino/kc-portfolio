@@ -74,7 +74,7 @@ const EducationSection: React.FC<EducationProps> = () => {
         <div className="bg-zinc-900 px-8 py-6">
           <GrainTexture opacity={0.3} blendMode="screen" />
           <h2 className="bbh-sans-bogle-regular text-4xl font-bold text-white md:text-5xl">
-            EDUCATION
+            STUDY
           </h2>
         </div>
 

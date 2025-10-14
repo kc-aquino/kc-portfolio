@@ -5,17 +5,19 @@ import colors from '../../style/colorPalette';
 interface HeroProps {
   mousePos: { x: number; y: number };
   onEnter: () => void;
+  scrollToSection: (ref: React.RefObject<HTMLDivElement>) => void;
+  sections: { id: string; ref: React.RefObject<HTMLDivElement> }[];
 }
 
-const HeroSection: React.FC<HeroProps> = ({ mousePos, onEnter }) => {
+const HeroSection: React.FC<HeroProps> = ({ mousePos, onEnter, scrollToSection, sections }) => {
+  const aboutRef = sections.find((s) => s.id === 'about')?.ref;
+  const projectsRef = sections.find((s) => s.id === 'projects')?.ref;
+
   return (
     <section className="relative flex h-screen min-w-screen flex-shrink-0 items-center justify-center overflow-hidden">
-      {/* 🔹 Name in Upper Left Corner */}
+      {/*  Name in Upper Left Corner */}
       <div
-        onClick={() => {
-          const section = document.getElementById('about');
-          section?.scrollIntoView({ behavior: 'smooth' });
-        }}
+        onClick={() => aboutRef && scrollToSection(aboutRef)}
         style={{
           transition: 'all 0.3s ease',
         }}
@@ -30,8 +32,7 @@ const HeroSection: React.FC<HeroProps> = ({ mousePos, onEnter }) => {
       >
         Crystal Kate Aquino
       </div>
-
-      {/* 🔹 Background Video (fully protected) */}
+      {/*  Background Video (fully protected) */}
       <video
         className="pointer-events-none absolute inset-0 h-full w-full object-cover select-none"
         src="src/assets/bgBW.mp4"
@@ -44,11 +45,9 @@ const HeroSection: React.FC<HeroProps> = ({ mousePos, onEnter }) => {
         onContextMenu={(e) => e.preventDefault()}
         preload="auto"
       />
-
-      {/* 🔹 Overlay */}
+      {/*  Overlay */}
       <div className="pointer-events-none absolute inset-0 bg-black/50" />
-
-      {/* 🔹 Mouse gradient effect */}
+      {/*  Mouse gradient effect */}
       <div
         className="pointer-events-none absolute inset-0 opacity-20"
         style={{
@@ -58,8 +57,7 @@ const HeroSection: React.FC<HeroProps> = ({ mousePos, onEnter }) => {
           transition: 'transform 0.5s ease-out',
         }}
       />
-
-      {/* 🔹 Main Content */}
+      {/*  Main Content */}
       <div className="relative z-10 max-w-6xl px-8 text-center">
         <div className="mb-6 flex items-center justify-center gap-8">
           <div className="flex items-center gap-3 text-sm tracking-wide text-zinc-400">
@@ -83,10 +81,7 @@ const HeroSection: React.FC<HeroProps> = ({ mousePos, onEnter }) => {
 
         <div className="flex flex-wrap items-center justify-center gap-6">
           <button
-            onClick={() => {
-              const section = document.getElementById('projects');
-              section?.scrollIntoView({ behavior: 'smooth' });
-            }}
+            onClick={() => projectsRef && scrollToSection(projectsRef)}
             className="inline-flex cursor-pointer items-center gap-3 bg-white px-8 py-4 text-sm font-medium tracking-wider text-black transition-all duration-300 hover:bg-zinc-200"
           >
             VIEW WORK <ChevronRight size={20} />
