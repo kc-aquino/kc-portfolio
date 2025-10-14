@@ -1,5 +1,7 @@
 import React from 'react';
 import { Mail, Github } from 'lucide-react';
+import colors from '../../style/colorPalette';
+import Waves from '../reactbits/Waves/Waves';
 
 interface ContactProps {
   mousePos: { x: number; y: number };
@@ -7,12 +9,35 @@ interface ContactProps {
 
 const ContactSection: React.FC<ContactProps> = ({ mousePos }) => (
   <section className="relative flex h-screen min-w-screen flex-shrink-0 items-center justify-center bg-zinc-950 px-20">
-    <div className="max-w-3xl text-center">
-      <div className="mb-6 inline-block border border-zinc-800 px-4 py-2 text-xs tracking-widest text-zinc-500">
+    <Waves
+      lineColor="#fff"
+      backgroundColor="rgba(255, 255, 255, 0.2)"
+      waveSpeedX={0.02}
+      waveSpeedY={0.01}
+      waveAmpX={40}
+      waveAmpY={20}
+      friction={0.9}
+      tension={0.01}
+      maxCursorMove={120}
+      xGap={12}
+      yGap={36}
+    />
+    <div className="relative z-10 max-w-3xl rounded-3xl border border-white/10 bg-white/2 p-12 text-center backdrop-blur-md">
+      <div className="border-zink-500 mb-6 inline-block border px-4 py-2 text-xs tracking-widest text-zinc-500">
         GET IN TOUCH
       </div>
       <h2 className="mb-8 text-7xl leading-tight font-light text-white">
-        Let’s create something <span className="text-violet-400">amazing</span> together
+        Let’s create something{' '}
+        <span
+          style={{
+            color: colors.pinkAccent,
+            textShadow: `0
+  0 8px ${colors.peachLight}`,
+          }}
+        >
+          amazing
+        </span>{' '}
+        together
       </h2>
       <p className="mb-10 text-lg text-zinc-400">
         Whether you want to collaborate, have a question, or just say hi — I’d love to hear from
@@ -21,16 +46,16 @@ const ContactSection: React.FC<ContactProps> = ({ mousePos }) => (
 
       <div className="flex items-center justify-center gap-8">
         <a
-          href="mailto:youremail@example.com"
-          className="flex items-center gap-3 text-zinc-300 transition hover:text-violet-400"
+          href="mailto:crystalaquino86@gmail.com"
+          className="flex items-center gap-3 text-zinc-300 transition hover:text-pink-200"
         >
           <Mail size={20} />
           Email Me
         </a>
         <a
-          href="https://github.com/yourusername"
+          href="https://github.com/kc-aquino"
           target="_blank"
-          className="flex items-center gap-3 text-zinc-300 transition hover:text-violet-400"
+          className="flex items-center gap-3 text-zinc-300 transition hover:text-pink-200"
         >
           <Github size={20} />
           GitHub
