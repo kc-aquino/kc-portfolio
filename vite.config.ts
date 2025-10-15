@@ -5,6 +5,7 @@ import path from 'path';
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/kc-portfolio/', // <-- GitHub repo name
   plugins: [react(), tailwindcss()],
   assetsInclude: ['**/*.glb'],
   resolve: {

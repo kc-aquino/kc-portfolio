@@ -81,7 +81,7 @@ const ContactSection = () => (
           </a>
 
           <a
-            href="/resume.pdf"
+            href="/kc-portfolio/assets/Aquino_CrystalKate-Resume-Oct2025.pdf"
             target="_blank"
             className="flex items-center gap-3 text-zinc-300 transition hover:text-pink-200"
           >
