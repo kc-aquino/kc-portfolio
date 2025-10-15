@@ -1,3 +1,6 @@
+import go8Logo from '../assets/icons/go8_logo.jpg';
+import joysisOllopaLogo from '../assets/icons/joysis-ollopa_logo.png';
+
 export interface Experience {
   title: string;
   company: string;
@@ -14,7 +17,7 @@ export const experience: Experience[] = [
     period: 'Apr 2025 - Present',
     location: 'Your Location',
     desc: 'Designing and developing responsive UIs for streaming platforms with focus on user experience',
-    logo: '/src/assets/icons/go8_logo.jpg',
+    logo: go8Logo,
   },
   {
     title: 'Intern Software Developer',
@@ -22,7 +25,7 @@ export const experience: Experience[] = [
     period: 'Mar - May 2025',
     location: 'Your Location',
     desc: 'Full-stack development with ReactJS, React Native, Flutter with emphasis on UI implementation',
-    logo: '/src/assets/icons/go8_logo.jpg',
+    logo: go8Logo,
   },
   {
     title: 'Graphic Designer Intern',
@@ -30,6 +33,6 @@ export const experience: Experience[] = [
     period: 'Nov - Dec 2024',
     location: 'Your Location',
     desc: 'Java NC III certification internship focusing on visual design and user interfaces',
-    logo: '/src/assets/icons/joysis-ollopa_logo.png',
+    logo: joysisOllopaLogo,
   },
 ];

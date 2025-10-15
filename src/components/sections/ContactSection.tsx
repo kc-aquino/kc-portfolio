@@ -1,6 +1,7 @@
 import { Mail, Github, Facebook, Linkedin, FileText } from 'lucide-react';
 import colors from '../../style/colorPalette';
 import Waves from '../reactbits/Waves/Waves';
+import resumePdf from '../../assets/Aquino_CrystalKate-Resume-Oct2025.pdf';
 
 const ContactSection = () => (
   <section className="relative flex h-screen min-w-screen flex-shrink-0 items-center justify-center bg-zinc-950 px-20">
@@ -81,7 +82,7 @@ const ContactSection = () => (
           </a>
 
           <a
-            href="/kc-portfolio/assets/Aquino_CrystalKate-Resume-Oct2025.pdf"
+            href={resumePdf}
             target="_blank"
             className="flex items-center gap-3 text-zinc-300 transition hover:text-pink-200"
           >
