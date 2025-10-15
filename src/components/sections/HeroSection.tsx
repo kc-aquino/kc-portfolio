@@ -1,6 +1,7 @@
 import React from 'react';
 import { Palette, Code, ChevronRight } from 'lucide-react';
 import colors from '../../style/colorPalette';
+import bgBW from '../../assets/bgBW.mp4';
 
 interface HeroProps {
   mousePos: { x: number; y: number };
@@ -35,7 +36,7 @@ const HeroSection: React.FC<HeroProps> = ({ mousePos, scrollToSection, sections 
       {/*  Background Video (fully protected) */}
       <video
         className="pointer-events-none absolute inset-0 h-full w-full object-cover select-none"
-        src="src/assets/bgBW.mp4"
+        src={bgBW}
         autoPlay
         loop
         muted
