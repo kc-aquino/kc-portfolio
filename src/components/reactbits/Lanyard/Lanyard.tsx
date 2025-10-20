@@ -42,10 +42,29 @@ export default function Lanyard({
   fov = 10,
   transparent = true,
 }: LanyardProps) {
+  const [isSmall, setIsSmall] = useState(() => {
+    if (typeof window !== 'undefined') return window.innerWidth < 768;
+    return false;
+  });
+
+  useEffect(() => {
+    const handleResize = () => setIsSmall(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  /** 🔧 Responsive scaling and camera tuning */
+  const scale = isSmall ? 0.85 : 1;
+  const adjustedFov = isSmall ? 14 : fov;
+  const heightClass = isSmall ? 'h-[400px]' : 'h-screen';
+
   return (
-    <div className="relative z-0 flex h-screen w-full origin-center scale-100 transform items-center justify-center">
+    <div
+      className={`relative z-0 flex w-full items-center justify-center ${heightClass}`}
+      style={{ transform: `scale(${scale})` }}
+    >
       <Canvas
-        camera={{ position, fov }}
+        camera={{ position, fov: adjustedFov }}
         gl={{ alpha: transparent }}
         onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)}
       >

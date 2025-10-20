@@ -17,13 +17,13 @@ const HeroSection: React.FC<HeroProps> = ({ mousePos, scrollToSection, sections 
 
   return (
     <section className="relative flex h-screen min-w-screen flex-shrink-0 items-center justify-center overflow-hidden">
-      {/*  Name Button */}
+      {/* Name Button (hidden on mobile) */}
       <div
         onClick={() => aboutRef && scrollToSection(aboutRef)}
         style={{
           transition: 'all 0.3s ease',
         }}
-        className="bonheur-royale-regular absolute bottom-6 left-8 z-20 cursor-pointer text-3xl text-white hover:scale-105"
+        className="bonheur-royale-regular absolute top-6 left-8 z-20 hidden cursor-pointer text-3xl text-white hover:scale-105 sm:block"
         onMouseEnter={(e) => {
           (e.currentTarget as HTMLDivElement).style.textShadow = `0 0 8px ${colors.pinkAccent}`;
         }}
@@ -35,23 +35,6 @@ const HeroSection: React.FC<HeroProps> = ({ mousePos, scrollToSection, sections 
         Crystal Kate Aquino
       </div>
 
-      {/*  Contact Me Button */}
-      <div
-        onClick={() => contactRef && scrollToSection(contactRef)}
-        style={{
-          transition: 'all 0.3s ease',
-        }}
-        className=" bonheur-royale-regular absolute bottom-6 right-8 z-20 cursor-pointer text-3xl text-white hover:scale-105"
-        onMouseEnter={(e) => {
-          (e.currentTarget as HTMLDivElement).style.textShadow = `0 0 8px ${colors.pinkAccent}`;
-        }}
-        onMouseLeave={(e) => {
-          (e.currentTarget as HTMLDivElement).style.color = 'white';
-          (e.currentTarget as HTMLDivElement).style.textShadow = 'none';
-        }}
-      >
-        Contact Me
-      </div>
       {/*  Background Video (fully protected) */}
       <video
         className="pointer-events-none absolute inset-0 h-full w-full object-cover select-none"
@@ -79,32 +62,45 @@ const HeroSection: React.FC<HeroProps> = ({ mousePos, scrollToSection, sections 
       />
       {/*  Main Content */}
       <div className="relative z-10 max-w-6xl px-8 text-center">
-        <div className="mb-6 flex items-center justify-center gap-8">
-          <div className="flex items-center gap-3 text-sm tracking-wide text-zinc-400">
-            <Palette size={18} />
+        <div className="mb-6 flex flex-wrap items-center justify-center gap-4 sm:gap-8">
+          <div className="flex items-center gap-2 text-[3vw] tracking-wide text-zinc-400 sm:gap-3 sm:text-sm">
+            <Palette size={16} className="sm:h-[18px] sm:w-[18px]" />
             <span>UI/UX DESIGNER</span>
           </div>
-          <div className="h-8 w-px bg-zinc-700"></div>
-          <div className="flex items-center gap-3 text-sm tracking-wide text-zinc-400">
-            <Code size={18} />
+
+          <div className="h-6 w-px bg-zinc-700 sm:h-8"></div>
+
+          <div className="flex items-center gap-2 text-[3vw] tracking-wide text-zinc-400 sm:gap-3 sm:text-sm">
+            <Code size={16} className="sm:h-[18px] sm:w-[18px]" />
             <span>FULL STACK DEVELOPER</span>
           </div>
         </div>
 
+        {/* Responsive heading */}
         <h1 className="relative my-8 py-4 text-center text-[12vw] leading-none font-light tracking-tight text-white before:absolute before:inset-x-0 before:top-0 before:h-[2px] before:bg-gradient-to-r before:from-transparent before:via-white before:to-transparent after:absolute after:inset-x-0 after:bottom-0 after:h-[2px] after:bg-gradient-to-r after:from-transparent after:via-white after:to-transparent">
-          DEVELOPER
+          {/* Mobile view → show your name */}
+          <span className="block sm:hidden">CRYSTAL KATE AQUINO</span>
+          {/* Desktop view → show DEVELOPER */}
+          <span className="hidden sm:block">DEVELOPER</span>
         </h1>
 
         <p className="mx-auto mb-12 max-w-2xl text-xl font-light tracking-wide text-zinc-300">
           Designing delightful experiences and bringing them to life through code
         </p>
 
-        <div className="flex flex-wrap items-center justify-center gap-6">
+        <div className="flex flex-col flex-wrap items-center justify-center gap-4 sm:flex-row sm:gap-6">
           <button
             onClick={() => projectsRef && scrollToSection(projectsRef)}
-            className="inline-flex cursor-pointer items-center gap-3 bg-white px-8 py-4 text-sm font-medium tracking-wider text-black transition-all duration-300 hover:bg-zinc-200"
+            className="inline-flex w-48 items-center justify-center gap-3 bg-white px-8 py-4 text-sm font-medium tracking-wider text-black transition-all duration-300 hover:bg-zinc-200"
           >
-            VIEW WORK <ChevronRight size={20} />
+            VIEW WORK <ChevronRight size={20} className="shrink-0 text-black" />
+          </button>
+
+          <button
+            onClick={() => contactRef && scrollToSection(contactRef)}
+            className="inline-flex w-48 items-center justify-center gap-3 bg-white px-8 py-4 text-sm font-medium tracking-wider text-black transition-all duration-300 hover:bg-zinc-200"
+          >
+            CONTACT ME <ChevronRight size={20} className="shrink-0 text-black" />
           </button>
         </div>
       </div>

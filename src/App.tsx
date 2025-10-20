@@ -19,6 +19,7 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [showAllProjectsPage, setShowAllProjectsPage] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // --- Refs ---
   const containerRef = useRef<HTMLDivElement>(null);
@@ -93,7 +94,6 @@ const App = () => {
         left: targetPosition,
         behavior: 'smooth',
       });
-
     } else {
       ref.current!.scrollIntoView({ behavior: 'smooth' });
     }
@@ -152,12 +152,11 @@ const App = () => {
     };
   }, [isMobile, showAllProjectsPage]);
 
-
   // --- Render ---
   return (
     <div
       className={`relative bg-zinc-950 ${
-        showAllProjectsPage ? 'h-auto overflow-y-auto' : 'h-screen overflow-hidden'
+        showAllProjectsPage || isMobile ? 'h-auto overflow-y-auto' : 'h-screen overflow-hidden'
       }`}
     >
       <LoadingScreen isLoading={isLoading} />
@@ -179,28 +178,25 @@ const App = () => {
                     : 'h-full flex-row overflow-x-auto scroll-smooth'
                 }`}
               >
-                <div ref={heroRef}>
-                  <HeroSection
+                <div ref={heroRef} className={isMobile ? 'h-screen' : ''}>
+                <HeroSection
                     mousePos={mousePos}
                     onEnter={() => scrollToSection(projectsRef)}
                     scrollToSection={scrollToSection}
                     sections={sections}
-                  />
+                />
                 </div>
 
-                {!isMobile && <VerticalMarquee text="ABOUT" speed={6} />}
-
-                <div ref={aboutRef}>
-                  <AboutSection />
+                <div ref={aboutRef} className={isMobile ? 'h-screen' : ''}>
+                <AboutSection />
                 </div>
 
-                {!isMobile && <VerticalMarquee text="PROJECTS" speed={6} darkMode={true} />}
 
-                <div ref={projectsRef}>
+                <div ref={projectsRef} className={isMobile ? 'h-screen' : ''}>
                   <ProjectsSection onShowAllProjects={() => setShowAllProjectsPage(true)} />
                 </div>
 
-                <div ref={experienceRef}>
+                <div ref={experienceRef} className={isMobile ? 'h-screen' : ''}>
                   <ExperienceSection mousePos={mousePos} />
                 </div>
 
@@ -212,7 +208,57 @@ const App = () => {
                   <ContactSection />
                 </div>
               </div>
+            </>
+          )}
 
+          {isMobile && (
+            <button
+              type="button"
+              aria-label="Open menu"
+              onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+              className="fixed bottom-4 right-4 z-50 w-14 h-14 rounded-full bg-white shadow-lg shadow-zinc-900/30 flex items-center justify-center active:scale-95 transition-transform"
+            >
+              <span className="sr-only">Open menu</span>
+              <div className="space-y-1.5">
+                <span className="block w-6 h-0.5 bg-zinc-900 rounded" />
+                <span className="block w-6 h-0.5 bg-zinc-900 rounded" />
+                <span className="block w-6 h-0.5 bg-zinc-900 rounded" />
+              </div>
+            </button>
+          )}
+
+          {isMobile && isMobileMenuOpen && (
+            <>
+              <div
+                className="fixed inset-0 z-40 bg-black/30"
+                onClick={() => setIsMobileMenuOpen(false)}
+                aria-hidden="true"
+              />
+              <div className="fixed bottom-24 right-4 z-50 w-56 rounded-2xl bg-white shadow-xl ring-1 ring-zinc-950/5">
+                <ul className="py-2">
+                  {[
+                    { label: 'Home', ref: heroRef },
+                    { label: 'About', ref: aboutRef },
+                    { label: 'Projects', ref: projectsRef },
+                    { label: 'Experience', ref: experienceRef },
+                    { label: 'Education', ref: educationRef },
+                    { label: 'Contact', ref: contactRef },
+                  ].map((item) => (
+                    <li key={item.label}>
+                      <button
+                        type="button"
+                        className="w-full text-left px-4 py-3 text-zinc-900 hover:bg-zinc-50"
+                        onClick={() => {
+                          scrollToSection(item.ref);
+                          setIsMobileMenuOpen(false);
+                        }}
+                      >
+                        {item.label}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </>
           )}
 
