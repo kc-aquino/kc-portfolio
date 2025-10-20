@@ -13,16 +13,17 @@ interface HeroProps {
 const HeroSection: React.FC<HeroProps> = ({ mousePos, scrollToSection, sections }) => {
   const aboutRef = sections.find((s) => s.id === 'about')?.ref;
   const projectsRef = sections.find((s) => s.id === 'projects')?.ref;
+  const contactRef = sections.find((s) => s.id === 'contact')?.ref;
 
   return (
     <section className="relative flex h-screen min-w-screen flex-shrink-0 items-center justify-center overflow-hidden">
-      {/*  Name in Upper Left Corner */}
+      {/*  Name Button */}
       <div
         onClick={() => aboutRef && scrollToSection(aboutRef)}
         style={{
           transition: 'all 0.3s ease',
         }}
-        className="bonheur-royale-regular absolute top-6 left-8 z-20 cursor-pointer text-3xl text-white hover:scale-105"
+        className="bonheur-royale-regular absolute bottom-6 left-8 z-20 cursor-pointer text-3xl text-white hover:scale-105"
         onMouseEnter={(e) => {
           (e.currentTarget as HTMLDivElement).style.textShadow = `0 0 8px ${colors.pinkAccent}`;
         }}
@@ -32,6 +33,24 @@ const HeroSection: React.FC<HeroProps> = ({ mousePos, scrollToSection, sections 
         }}
       >
         Crystal Kate Aquino
+      </div>
+
+      {/*  Contact Me Button */}
+      <div
+        onClick={() => contactRef && scrollToSection(contactRef)}
+        style={{
+          transition: 'all 0.3s ease',
+        }}
+        className=" bonheur-royale-regular absolute bottom-6 right-8 z-20 cursor-pointer text-3xl text-white hover:scale-105"
+        onMouseEnter={(e) => {
+          (e.currentTarget as HTMLDivElement).style.textShadow = `0 0 8px ${colors.pinkAccent}`;
+        }}
+        onMouseLeave={(e) => {
+          (e.currentTarget as HTMLDivElement).style.color = 'white';
+          (e.currentTarget as HTMLDivElement).style.textShadow = 'none';
+        }}
+      >
+        Contact Me
       </div>
       {/*  Background Video (fully protected) */}
       <video

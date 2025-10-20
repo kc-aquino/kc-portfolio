@@ -8,7 +8,6 @@ import ExperienceSection from './components/sections/ExperienceSection';
 
 import ProjectModal from './components/ProjectModal';
 import LoadingScreen from './components/LoadingScreen';
-import SectionDots from './components/SectionDots';
 import VerticalMarquee from './components/VerticalMarquee';
 import AllProjectsPage from './components/AllProjectsPage';
 import projects from './data/projects';
@@ -19,7 +18,6 @@ const App = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
   const [showAllProjectsPage, setShowAllProjectsPage] = useState(false);
 
   // --- Refs ---
@@ -96,8 +94,6 @@ const App = () => {
         behavior: 'smooth',
       });
 
-      const sectionIndex = sections.findIndex((s) => s.ref === ref);
-      if (sectionIndex !== -1) setActiveIndex(sectionIndex);
     } else {
       ref.current!.scrollIntoView({ behavior: 'smooth' });
     }
@@ -156,50 +152,6 @@ const App = () => {
     };
   }, [isMobile, showAllProjectsPage]);
 
-  // --- Track visible section ---
-  useEffect(() => {
-    if (!containerRef.current || isMobile) return;
-
-    const container = containerRef.current;
-
-    const updateActiveSection = () => {
-      const scrollLeft = container.scrollLeft;
-      const containerWidth = container.offsetWidth;
-
-      let currentIndex = 0;
-      for (let i = 0; i < sections.length; i++) {
-        const el = sections[i].ref.current;
-        if (!el) continue;
-        const left = el.offsetLeft;
-        const right = left + el.offsetWidth;
-        const middle = scrollLeft + containerWidth / 2;
-
-        if (middle >= left && middle < right) {
-          currentIndex = i;
-          break;
-        }
-      }
-      setActiveIndex(currentIndex);
-    };
-
-    // Update continuously during scroll animation
-    const handleScroll = () => updateActiveSection();
-    container.addEventListener('scroll', handleScroll);
-    updateActiveSection();
-
-    // Also run it every animation frame to sync with smooth scrolling
-    let frameId: number;
-    const syncActive = () => {
-      updateActiveSection();
-      frameId = requestAnimationFrame(syncActive);
-    };
-    frameId = requestAnimationFrame(syncActive);
-
-    return () => {
-      container.removeEventListener('scroll', handleScroll);
-      cancelAnimationFrame(frameId);
-    };
-  }, [sections, isMobile]);
 
   // --- Render ---
   return (
@@ -261,13 +213,6 @@ const App = () => {
                 </div>
               </div>
 
-              {!isMobile && (
-                <SectionDots
-                  sections={sections}
-                  activeIndex={activeIndex}
-                  onDotClick={scrollToSection}
-                />
-              )}
             </>
           )}
 
