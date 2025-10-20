@@ -17,6 +17,7 @@ const ContactSection = () => (
       maxCursorMove={120}
       xGap={12}
       yGap={36}
+      className="pointer-events-none"
     />
     <div className="relative z-10 max-w-3xl rounded-3xl border border-white/10 bg-white/2 p-12 text-center backdrop-blur-md">
       <div className="border-zink-500 mb-6 inline-block border px-4 py-2 text-xs tracking-widest text-zinc-500">
