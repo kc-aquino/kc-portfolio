@@ -8,6 +8,7 @@ export const education = [
     period: 'Sept 2021 – July 2025',
     location: 'Caloocan, Metro Manila',
     logo: stiLogo,
+    alt: 'STI-logo'
   },
   {
     school: 'Arellano University – Jose Rizal Campus',
@@ -15,5 +16,6 @@ export const education = [
     period: 'June 2014 – June 2020',
     location: 'Malabon, Metro Manila',
     logo: arellanoLogo,
+    alt: 'AU-logo'
   },
 ];

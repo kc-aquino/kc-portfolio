@@ -11,6 +11,8 @@ interface ExperienceProps {
 const ExperienceSection: React.FC<ExperienceProps> = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+  const [imageLoading, setImageLoading] = useState(true);
+  const [loadedLogos, setLoadedLogos] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -19,6 +21,19 @@ const ExperienceSection: React.FC<ExperienceProps> = () => {
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
+
+  useEffect(() => {
+    if (hoveredIndex !== null) {
+      const logo = experience[hoveredIndex].logo;
+      // Only show spinner if this logo hasn’t loaded before
+      setImageLoading(!loadedLogos.has(logo));
+    }
+  }, [hoveredIndex, loadedLogos]);
+
+  const handleImageLoad = (logo: string) => {
+    setLoadedLogos(prev => new Set(prev).add(logo));
+    setImageLoading(false);
+  };
 
   return (
     <section className="relative flex h-screen flex-shrink-0 items-center justify-center overflow-hidden bg-white">
@@ -32,10 +47,21 @@ const ExperienceSection: React.FC<ExperienceProps> = () => {
             transform: 'translate(-50%, -50%)',
           }}
         >
+          {/* Spinner only if not cached */}
+          {imageLoading && (
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/70 shadow-2xl">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-zinc-400 border-t-pink-400"></div>
+            </div>
+          )}
+
           <img
             src={experience[hoveredIndex].logo}
             alt={`${experience[hoveredIndex].company} logo`}
-            className="h-16 w-16 rounded-full object-cover shadow-2xl"
+            className={`h-16 w-16 rounded-full object-cover shadow-2xl transition-opacity duration-300 ${
+              imageLoading ? 'opacity-0' : 'opacity-100'
+            }`}
+            onLoad={() => handleImageLoad(experience[hoveredIndex].logo)}
+            onError={() => setImageLoading(false)}
           />
         </div>
       )}
@@ -47,10 +73,12 @@ const ExperienceSection: React.FC<ExperienceProps> = () => {
         {/* Header */}
         <div className="bg-zinc-900 px-8 py-6">
           <GrainTexture opacity={0.3} blendMode="screen" />
-          <h2 className="bbh-sans-bogle-regular text-4xl font-bold text-white md:text-5xl">WORK</h2>
+          <h2 className="bbh-sans-bogle-regular text-4xl font-bold text-white md:text-5xl">
+            WORK
+          </h2>
         </div>
 
-        {/* Experience List - Fixed Layout */}
+        {/* Experience List */}
         <div className="flex flex-1 flex-col bg-white">
           {experience.map((exp, index) => (
             <div
@@ -60,8 +88,7 @@ const ExperienceSection: React.FC<ExperienceProps> = () => {
               onMouseLeave={() => setHoveredIndex(null)}
             >
               <div className="flex w-full flex-col justify-center px-6 py-6 md:flex-row md:justify-between md:gap-12">
-                {/* Left side — Period, Company, and Title */}
-                {/* Changed justify-center to justify-start and removed fixed height to let content define height */}
+                {/* Left side */}
                 <div className="flex w-full flex-col md:w-2/5">
                   <p
                     className="mb-3 text-base font-medium tracking-wide md:text-lg"
@@ -69,8 +96,6 @@ const ExperienceSection: React.FC<ExperienceProps> = () => {
                   >
                     {exp.period}
                   </p>
-
-                  {/* Removed h-full and justify-center. Changed outer flex to flex-col. */}
                   <div className="flex flex-col">
                     <h3 className="mb-1 text-2xl font-bold text-zinc-900">{exp.company}</h3>
                     <p className="flex items-center gap-2 text-sm font-semibold text-zinc-500 md:text-base">
@@ -79,7 +104,7 @@ const ExperienceSection: React.FC<ExperienceProps> = () => {
                   </div>
                 </div>
 
-                {/* Right side — Description aligned with company */}
+                {/* Right side */}
                 <div className="mt-4 flex w-full md:mt-0 md:w-3/5">
                   <p className="mt-10 text-sm leading-relaxed text-zinc-600 md:text-base md:leading-relaxed">
                     {exp.desc}

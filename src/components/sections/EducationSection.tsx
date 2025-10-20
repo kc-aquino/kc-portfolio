@@ -11,6 +11,7 @@ interface EducationProps {
 const EducationSection: React.FC<EducationProps> = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+  const [imageLoading, setImageLoading] = useState(true);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -19,6 +20,11 @@ const EducationSection: React.FC<EducationProps> = () => {
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
+
+  useEffect(() => {
+    // Reset loader whenever hoveredIndex changes
+    setImageLoading(true);
+  }, [hoveredIndex]);
 
   return (
     <section className="relative flex h-screen flex-shrink-0 items-center justify-center overflow-hidden bg-white">
@@ -32,10 +38,22 @@ const EducationSection: React.FC<EducationProps> = () => {
             transform: 'translate(-50%, -50%)',
           }}
         >
+          {/* Loading Spinner */}
+          {imageLoading && (
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/70 shadow-2xl">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-zinc-400 border-t-pink-400"></div>
+            </div>
+          )}
+
+          {/* Logo Image */}
           <img
             src={education[hoveredIndex].logo}
-            alt={`${education[hoveredIndex].school} logo`}
-            className="h-16 w-16 rounded-full object-cover shadow-2xl"
+            alt={`${education[hoveredIndex].alt} `}
+            className={`h-16 w-16 rounded-full object-cover shadow-2xl transition-opacity duration-300 ${
+              imageLoading ? 'opacity-0' : 'opacity-100'
+            }`}
+            onLoad={() => setImageLoading(false)}
+            onError={() => setImageLoading(false)}
           />
         </div>
       )}
