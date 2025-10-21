@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import HeroSection from './components/sections/HeroSection';
 import AboutSection from './components/sections/AboutSection';
 import ProjectsSection from './components/sections/ProjectsSection';
@@ -8,7 +8,6 @@ import ExperienceSection from './components/sections/ExperienceSection';
 
 import ProjectModal from './components/ProjectModal';
 import LoadingScreen from './components/LoadingScreen';
-import VerticalMarquee from './components/VerticalMarquee';
 import AllProjectsPage from './components/AllProjectsPage';
 import projects from './data/projects';
 import type { Project } from './data/projects';
@@ -156,7 +155,7 @@ const App = () => {
   return (
     <div
       className={`relative bg-zinc-950 ${
-        showAllProjectsPage || isMobile ? 'h-auto overflow-y-auto' : 'h-screen overflow-hidden'
+        showAllProjectsPage || isMobile ? 'h-auto overflow-y-auto' : 'h-screen overflow-x-hidden'
       }`}
     >
       <LoadingScreen isLoading={isLoading} />
@@ -175,22 +174,21 @@ const App = () => {
                 className={`flex ${
                   isMobile
                     ? 'h-auto flex-col overflow-y-auto'
-                    : 'h-full flex-row overflow-x-auto scroll-smooth'
+                    : 'h-screen flex-row overflow-x-auto overflow-y-hidden scroll-smooth'
                 }`}
               >
                 <div ref={heroRef} className={isMobile ? 'h-screen' : ''}>
-                <HeroSection
+                  <HeroSection
                     mousePos={mousePos}
                     onEnter={() => scrollToSection(projectsRef)}
                     scrollToSection={scrollToSection}
                     sections={sections}
-                />
+                  />
                 </div>
 
                 <div ref={aboutRef} className={isMobile ? 'h-screen' : ''}>
-                <AboutSection />
+                  <AboutSection />
                 </div>
-
 
                 <div ref={projectsRef} className={isMobile ? 'h-screen' : ''}>
                   <ProjectsSection onShowAllProjects={() => setShowAllProjectsPage(true)} />
@@ -216,13 +214,13 @@ const App = () => {
               type="button"
               aria-label="Open menu"
               onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-              className="fixed bottom-4 right-4 z-50 w-14 h-14 rounded-full bg-white shadow-lg shadow-zinc-900/30 flex items-center justify-center active:scale-95 transition-transform"
+              className="fixed right-4 bottom-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-lg shadow-zinc-900/30 transition-transform active:scale-95"
             >
               <span className="sr-only">Open menu</span>
               <div className="space-y-1.5">
-                <span className="block w-6 h-0.5 bg-zinc-900 rounded" />
-                <span className="block w-6 h-0.5 bg-zinc-900 rounded" />
-                <span className="block w-6 h-0.5 bg-zinc-900 rounded" />
+                <span className="block h-0.5 w-6 rounded bg-zinc-900" />
+                <span className="block h-0.5 w-6 rounded bg-zinc-900" />
+                <span className="block h-0.5 w-6 rounded bg-zinc-900" />
               </div>
             </button>
           )}
@@ -234,7 +232,7 @@ const App = () => {
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-hidden="true"
               />
-              <div className="fixed bottom-24 right-4 z-50 w-56 rounded-2xl bg-white shadow-xl ring-1 ring-zinc-950/5">
+              <div className="fixed right-4 bottom-24 z-50 w-56 rounded-2xl bg-white shadow-xl ring-1 ring-zinc-950/5">
                 <ul className="py-2">
                   {[
                     { label: 'Home', ref: heroRef },
@@ -247,7 +245,7 @@ const App = () => {
                     <li key={item.label}>
                       <button
                         type="button"
-                        className="w-full text-left px-4 py-3 text-zinc-900 hover:bg-zinc-50"
+                        className="w-full px-4 py-3 text-left text-zinc-900 hover:bg-zinc-50"
                         onClick={() => {
                           scrollToSection(item.ref);
                           setIsMobileMenuOpen(false);

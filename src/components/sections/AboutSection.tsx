@@ -1,4 +1,3 @@
-import React from 'react';
 import GrainTexture from '../GrainTexture';
 import Lanyard from '../reactbits/Lanyard/Lanyard';
 import VerticalMarquee from '../VerticalMarquee';
@@ -11,7 +10,7 @@ const AboutSection = () => {
   return (
     <section
       id="about"
-      className="relative flex min-h-screen w-screen flex-shrink-0 overflow-hidden bg-white"
+      className="relative flex h-screen w-screen flex-shrink-0 overflow-hidden bg-white"
     >
       <GrainTexture opacity={0.5} blendMode="multiply" />
 
@@ -54,7 +53,7 @@ const AboutSection = () => {
               : 'order-2 w-1/2'
           }`}
         >
-          <Lanyard small={isMobile} />
+          <Lanyard />
         </div>
 
         {/* About Me Text */}

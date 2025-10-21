@@ -22,7 +22,7 @@ const AllProjectsPage: React.FC<AllProjectsPageProps> = ({ projects, onBack, onS
   const [_hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <div className="relative min-h-screen bg-zinc-950">
+    <div className="relative h-screen bg-zinc-950">
       {/* Grain texture overlay */}
       <div
         className="pointer-events-none fixed inset-0 opacity-30 mix-blend-screen"

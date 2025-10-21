@@ -3,6 +3,7 @@ import GrainTexture from '../GrainTexture';
 import CircularText from '../reactbits/CircularText/CircularText';
 import TiltedCard from '../reactbits/TiltedCard/TiltedCard';
 import projects from '../../data/projects';
+import useIsMobile from '../../hook/useIsMobile';
 import VerticalMarquee from '../VerticalMarquee';
 import InfiniteScroll from '../InfiniteScroll';
 
@@ -11,13 +12,36 @@ type ProjectsSectionProps = {
 };
 
 const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onShowAllProjects }) => {
+  const isMobile = useIsMobile();
   return (
     <section
       id="projects"
-      className="relative flex h-screen min-w-screen flex-shrink-0 items-center bg-zinc-900 px-20"
+      className="relative flex h-screen w-[130vw] flex-shrink-0 items-center overflow-hidden bg-zinc-900"
     >
       <GrainTexture opacity={0.3} blendMode="screen" />
-      <VerticalMarquee text="PROJECTS" speed={6} darkMode={true} />
+
+      {/* Header — InfiniteScroll (mobile) or VerticalMarquee (desktop) */}
+      {isMobile ? (
+        <div className="absolute top-0 w-full">
+          <InfiniteScroll
+            text="PROJECTS  "
+            baseVelocity={2}
+            direction="left"
+            textClassName="text-5xl font-bold tracking-[0.5em] px-4"
+            textColor="pink"
+            textVariant="mixed"
+            strokeColor="pink"
+            solidColor="white"
+            containerStyle={{
+              backgroundColor: 'transparent',
+              height: '60px',
+            }}
+          />
+        </div>
+      ) : (
+        <VerticalMarquee text="PROJECTS " speed={4} darkMode={true} />
+      )}
+
       <div className="relative z-10 mx-auto w-full max-w-[1800px]">
         <div className="flex items-start justify-between gap-8">
           {/* Projects Grid */}
