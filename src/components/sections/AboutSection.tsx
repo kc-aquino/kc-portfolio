@@ -18,7 +18,7 @@ const AboutSection = () => {
 
       {/* Header — InfiniteScroll (mobile) or VerticalMarquee (desktop) */}
       {isMobile ? (
-        <div className="absolute top-0 w-full">
+        <div className="absolute top-0 w-full border-b border-zinc-300/60">
           <InfiniteScroll
             text="ABOUT  "
             baseVelocity={2}
@@ -30,7 +30,7 @@ const AboutSection = () => {
             solidColor="white"
             containerStyle={{
               backgroundColor: 'transparent',
-              height: '50px',
+              height: '45px',
             }}
           />
         </div>

@@ -190,7 +190,7 @@ const App = () => {
                   <AboutSection />
                 </div>
 
-                <div ref={projectsRef} className={isMobile ? 'h-screen' : ''}>
+                <div ref={projectsRef} className={isMobile ? '' : ''}>
                   <ProjectsSection onShowAllProjects={() => setShowAllProjectsPage(true)} />
                 </div>
 

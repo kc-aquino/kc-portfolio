@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
+import useIsMobile from '../hook/useIsMobile';
 
 interface Project {
   id: string | number;
@@ -20,9 +21,10 @@ interface AllProjectsPageProps {
 
 const AllProjectsPage: React.FC<AllProjectsPageProps> = ({ projects, onBack, onSelectProject }) => {
   const [_hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const isMobile = useIsMobile();
 
   return (
-    <div className="relative h-screen bg-zinc-950">
+    <div className="relative min-h-screen bg-zinc-950">
       {/* Grain texture overlay */}
       <div
         className="pointer-events-none fixed inset-0 opacity-30 mix-blend-screen"
@@ -35,18 +37,24 @@ const AllProjectsPage: React.FC<AllProjectsPageProps> = ({ projects, onBack, onS
 
       <div className="relative z-10">
         {/* Header */}
-        <div className="sticky top-0 z-20 border-b border-zinc-800 bg-zinc-950/95 backdrop-blur-sm">
-          <div className="mx-auto max-w-7xl px-8 py-8">
+        <div
+          className={`sticky top-0 z-20 border-b border-zinc-800 bg-zinc-950/95 backdrop-blur-sm ${isMobile ? 'px-4 py-6' : 'px-8 py-8'}`}
+        >
+          <div className={`mx-auto ${isMobile ? 'max-w-full' : 'max-w-7xl'}`}>
             <button
               onClick={onBack}
-              className="group mb-6 flex items-center gap-2 text-zinc-400 transition-colors duration-300 hover:text-pink-400"
+              className={`group mb-6 flex items-center gap-2 text-zinc-400 transition-colors duration-300 hover:text-pink-400 ${isMobile ? 'mb-4' : ''}`}
             >
               <ArrowLeft className="h-5 w-5 transition-transform duration-300 group-hover:-translate-x-1" />
               <span className="text-sm font-medium">Back to Portfolio</span>
             </button>
             <div>
-              <h1 className="fjalla-one-regular text-6xl font-bold text-white">All Projects</h1>
-              <p className="mt-3 text-lg text-zinc-400">
+              <h1
+                className={`fjalla-one-regular font-bold text-white ${isMobile ? 'text-4xl' : 'text-6xl'}`}
+              >
+                All Projects
+              </h1>
+              <p className={`mt-3 text-zinc-400 ${isMobile ? 'text-base' : 'text-lg'}`}>
                 A comprehensive collection of {projects.length}{' '}
                 {projects.length === 1 ? 'project' : 'projects'}
               </p>
@@ -55,12 +63,14 @@ const AllProjectsPage: React.FC<AllProjectsPageProps> = ({ projects, onBack, onS
         </div>
 
         {/* Projects Grid */}
-        <div className="mx-auto max-w-7xl px-8 py-12">
+        <div className={`mx-auto ${isMobile ? 'max-w-full px-4 py-8' : 'max-w-7xl px-8 py-12'}`}>
           <div className="grid gap-8">
             {projects.map((project, index) => (
               <div
                 key={project.id}
-                className="group cursor-pointer rounded-2xl border border-zinc-800 bg-zinc-900/50 p-8 backdrop-blur-sm transition-all duration-500 hover:border-pink-500/40 hover:bg-zinc-800/60 hover:shadow-2xl hover:shadow-pink-500/10"
+                className={`group cursor-pointer rounded-2xl border border-zinc-800 bg-zinc-900/50 backdrop-blur-sm transition-all duration-500 hover:border-pink-500/40 hover:bg-zinc-800/60 hover:shadow-2xl hover:shadow-pink-500/10 ${
+                  isMobile ? 'p-4' : 'p-8'
+                }`}
                 onClick={() => {
                   if (project.link) {
                     window.open(project.link, '_blank');
@@ -71,11 +81,15 @@ const AllProjectsPage: React.FC<AllProjectsPageProps> = ({ projects, onBack, onS
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
               >
-                <div className="flex gap-8">
+                <div className={`flex ${isMobile ? 'flex-col gap-4' : 'gap-8'}`}>
                   {/* Thumbnail */}
                   {project.thumbnail && (
                     <div className="flex-shrink-0">
-                      <div className="relative h-48 w-80 overflow-hidden rounded-xl border border-zinc-700 bg-zinc-900 shadow-lg">
+                      <div
+                        className={`relative overflow-hidden rounded-xl border border-zinc-700 bg-zinc-900 shadow-lg ${
+                          isMobile ? 'h-48 w-full' : 'h-48 w-80'
+                        }`}
+                      >
                         <img
                           src={project.thumbnail}
                           alt={project.title}
@@ -90,18 +104,34 @@ const AllProjectsPage: React.FC<AllProjectsPageProps> = ({ projects, onBack, onS
                   {/* Content */}
                   <div className="flex flex-1 flex-col justify-between">
                     <div>
-                      <div className="mb-4 flex items-start justify-between">
+                      <div
+                        className={`mb-4 flex items-start justify-between ${isMobile ? 'flex-col gap-2' : ''}`}
+                      >
                         <div className="flex-1">
-                          <div className="mb-2 flex items-center gap-3">
-                            <h2 className="fjalla-one-regular text-4xl font-bold text-white transition-all duration-300 group-hover:text-[#FAA5B9] group-hover:drop-shadow-[0_0_20px_rgba(250,165,185,0.5)]">
+                          <div
+                            className={`mb-2 flex items-center gap-3 ${isMobile ? 'flex-col items-start gap-2' : ''}`}
+                          >
+                            <h2
+                              className={`fjalla-one-regular font-bold text-white transition-all duration-300 group-hover:text-[#FAA5B9] group-hover:drop-shadow-[0_0_20px_rgba(250,165,185,0.5)] ${
+                                isMobile ? 'text-2xl' : 'text-4xl'
+                              }`}
+                            >
                               {project.title}
                             </h2>
-                            <span className="flex-shrink-0 rounded-full bg-zinc-800/80 px-4 py-1.5 text-sm font-medium text-zinc-400 transition-all duration-300 group-hover:bg-pink-500/20 group-hover:text-pink-300">
+                            <span
+                              className={`flex-shrink-0 rounded-full bg-zinc-800/80 px-4 py-1.5 font-medium text-zinc-400 transition-all duration-300 group-hover:bg-pink-500/20 group-hover:text-pink-300 ${
+                                isMobile ? 'text-xs' : 'text-sm'
+                              }`}
+                            >
                               #{String(index + 1).padStart(2, '0')}
                             </span>
                           </div>
                           {project.subtitle && (
-                            <p className="fjalla-one-regular text-base font-light text-zinc-400/90 italic transition-colors duration-300 group-hover:text-zinc-300">
+                            <p
+                              className={`fjalla-one-regular font-light text-zinc-400/90 italic transition-colors duration-300 group-hover:text-zinc-300 ${
+                                isMobile ? 'text-sm' : 'text-base'
+                              }`}
+                            >
                               {project.subtitle}
                             </p>
                           )}
@@ -109,7 +139,11 @@ const AllProjectsPage: React.FC<AllProjectsPageProps> = ({ projects, onBack, onS
                       </div>
 
                       {project.description && (
-                        <p className="mb-6 leading-relaxed text-zinc-400 transition-colors duration-300 group-hover:text-zinc-300">
+                        <p
+                          className={`mb-6 leading-relaxed text-zinc-400 transition-colors duration-300 group-hover:text-zinc-300 ${
+                            isMobile ? 'text-sm' : 'text-base'
+                          }`}
+                        >
                           {project.description}
                         </p>
                       )}
@@ -121,7 +155,9 @@ const AllProjectsPage: React.FC<AllProjectsPageProps> = ({ projects, onBack, onS
                         {project.techStack.map((tech, techIndex) => (
                           <span
                             key={techIndex}
-                            className="rounded-full border border-zinc-600 bg-zinc-800/80 px-4 py-2 text-sm font-medium text-zinc-200 backdrop-blur-sm transition-all duration-300 group-hover:border-pink-500/50 group-hover:bg-zinc-700/80 group-hover:text-pink-200"
+                            className={`rounded-full border border-zinc-600 bg-zinc-800/80 font-medium text-zinc-200 backdrop-blur-sm transition-all duration-300 group-hover:border-pink-500/50 group-hover:bg-zinc-700/80 group-hover:text-pink-200 ${
+                              isMobile ? 'px-3 py-1.5 text-xs' : 'px-4 py-2 text-sm'
+                            }`}
                           >
                             {tech}
                           </span>
@@ -135,7 +171,7 @@ const AllProjectsPage: React.FC<AllProjectsPageProps> = ({ projects, onBack, onS
           </div>
 
           {/* Footer spacing */}
-          <div className="mt-16 text-center">
+          <div className={`text-center ${isMobile ? 'mt-12' : 'mt-16'}`}>
             <p className="text-sm text-zinc-500">End of projects</p>
           </div>
         </div>
