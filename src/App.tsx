@@ -11,6 +11,7 @@ import LoadingScreen from './components/LoadingScreen';
 import AllProjectsPage from './components/AllProjectsPage';
 import projects from './data/projects';
 import type { Project } from './data/projects';
+import MobileMenu from './components/MobileMenu';
 
 const App = () => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -210,54 +211,19 @@ const App = () => {
           )}
 
           {isMobile && (
-            <button
-              type="button"
-              aria-label="Open menu"
-              onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-              className="fixed right-4 bottom-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-lg shadow-zinc-900/30 transition-transform active:scale-95"
-            >
-              <span className="sr-only">Open menu</span>
-              <div className="space-y-1.5">
-                <span className="block h-0.5 w-6 rounded bg-zinc-900" />
-                <span className="block h-0.5 w-6 rounded bg-zinc-900" />
-                <span className="block h-0.5 w-6 rounded bg-zinc-900" />
-              </div>
-            </button>
-          )}
-
-          {isMobile && isMobileMenuOpen && (
-            <>
-              <div
-                className="fixed inset-0 z-40 bg-black/30"
-                onClick={() => setIsMobileMenuOpen(false)}
-                aria-hidden="true"
-              />
-              <div className="fixed right-4 bottom-24 z-50 w-56 rounded-2xl bg-white shadow-xl ring-1 ring-zinc-950/5">
-                <ul className="py-2">
-                  {[
-                    { label: 'Home', ref: heroRef },
-                    { label: 'About', ref: aboutRef },
-                    { label: 'Projects', ref: projectsRef },
-                    { label: 'Experience', ref: experienceRef },
-                    { label: 'Education', ref: educationRef },
-                    { label: 'Contact', ref: contactRef },
-                  ].map((item) => (
-                    <li key={item.label}>
-                      <button
-                        type="button"
-                        className="w-full px-4 py-3 text-left text-zinc-900 hover:bg-zinc-50"
-                        onClick={() => {
-                          scrollToSection(item.ref);
-                          setIsMobileMenuOpen(false);
-                        }}
-                      >
-                        {item.label}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </>
+            <MobileMenu
+              isOpen={isMobileMenuOpen}
+              onToggle={() => setIsMobileMenuOpen((prev) => !prev)}
+              onSelect={scrollToSection}
+              sections={[
+                { label: 'Home', ref: heroRef },
+                { label: 'About', ref: aboutRef },
+                { label: 'Projects', ref: projectsRef },
+                { label: 'Experience', ref: experienceRef },
+                { label: 'Education', ref: educationRef },
+                { label: 'Contact', ref: contactRef },
+              ]}
+            />
           )}
 
           {selectedProject && (
