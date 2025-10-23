@@ -4,7 +4,7 @@ interface MobileMenuProps {
   isOpen: boolean;
   onToggle: () => void;
   onSelect: (ref: React.RefObject<HTMLDivElement | null>) => void;
-  sections: { label: string; ref: React.RefObject<HTMLDivElement> }[];
+  sections: { label: string; ref: React.RefObject<HTMLDivElement | null> }[];
 }
 
 const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onToggle, onSelect, sections }) => {
