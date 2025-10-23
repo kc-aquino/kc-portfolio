@@ -53,7 +53,7 @@ const AboutSection = () => {
         <div
           className={`flex items-center justify-center ${
             isMobile
-              ? 'order-1 mb-4 w-full -translate-x-6 scale-[1.35] py-4'
+              ? 'order-1 mb-14 w-full -translate-x-6 scale-[1.35] py-5'
               : 'order-2 w-1/2 pb-20'
           }`}
         >

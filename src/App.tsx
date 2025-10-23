@@ -194,7 +194,7 @@ const App = () => {
                   <ProjectsSection onShowAllProjects={() => setShowAllProjectsPage(true)} />
                 </div>
 
-                <div ref={experienceRef} className={isMobile ? 'h-screen' : ''}>
+                <div ref={experienceRef}>
                   <ExperienceSection mousePos={mousePos} />
                 </div>
 
