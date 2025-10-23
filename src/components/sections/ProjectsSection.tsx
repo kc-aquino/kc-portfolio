@@ -23,7 +23,7 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onShowAllProjects }) 
       className={`relative flex bg-zinc-900 ${
         isMobile
           ? 'min-h-screen w-full flex-col items-center justify-start overflow-x-hidden px-4 pb-8'
-          : 'h-screen w-[130vw] flex-shrink-0 flex-row items-center overflow-hidden'
+          : 'h-screen w-[150vw] flex-shrink-0 flex-row items-center justify-start overflow-visible pr-[8vw] pl-0'
       }`}
     >
       <GrainTexture opacity={0.3} blendMode="screen" />
@@ -118,8 +118,8 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onShowAllProjects }) 
           >
             <CircularText
               text="S e e  M o r e   •   S e e  M o r e   •  "
-              onHover="goBonkers"
-              spinDuration={20}
+              onHover="speedUp"
+              spinDuration={12}
               className={`${isMobile ? 'scale-75' : 'scale-100'} transition-transform duration-300`}
             />
           </div>

@@ -190,7 +190,7 @@ const App = () => {
                   <AboutSection />
                 </div>
 
-                <div ref={projectsRef} className={isMobile ? '' : ''}>
+                <div ref={projectsRef}>
                   <ProjectsSection onShowAllProjects={() => setShowAllProjectsPage(true)} />
                 </div>
 
