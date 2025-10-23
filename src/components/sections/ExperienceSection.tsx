@@ -3,6 +3,7 @@ import GrainTexture from '../GrainTexture';
 import InfiniteScroll from '../InfiniteScroll';
 import { experience } from '../../data/experience';
 import colors from '../../style/colorPalette';
+import useIsMobile from '../../hook/useIsMobile';
 
 interface ExperienceProps {
   mousePos: { x: number; y: number };
@@ -13,7 +14,9 @@ const ExperienceSection: React.FC<ExperienceProps> = () => {
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [imageLoading, setImageLoading] = useState(true);
   const [loadedLogos, setLoadedLogos] = useState<Set<string>>(new Set());
+  const isMobile = useIsMobile();
 
+  // track cursor
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setCursorPos({ x: e.clientX, y: e.clientY });
@@ -25,20 +28,23 @@ const ExperienceSection: React.FC<ExperienceProps> = () => {
   useEffect(() => {
     if (hoveredIndex !== null) {
       const logo = experience[hoveredIndex].logo;
-      // Only show spinner if this logo hasn’t loaded before
       setImageLoading(!loadedLogos.has(logo));
     }
   }, [hoveredIndex, loadedLogos]);
 
   const handleImageLoad = (logo: string) => {
-    setLoadedLogos(prev => new Set(prev).add(logo));
+    setLoadedLogos((prev) => new Set(prev).add(logo));
     setImageLoading(false);
   };
 
   return (
-    <section className="relative flex h-screen flex-shrink-0 items-center justify-center overflow-hidden bg-white">
-      {/* Custom Cursor */}
-      {hoveredIndex !== null && (
+    <section
+      className={`relative flex flex-shrink-0 flex-col justify-start overflow-hidden bg-white ${
+        isMobile ? 'h-auto min-h-screen' : 'h-screen'
+      }`}
+    >
+      {/* Custom Cursor (desktop only) */}
+      {!isMobile && hoveredIndex !== null && (
         <div
           className="pointer-events-none fixed z-50 transition-opacity duration-200"
           style={{
@@ -47,7 +53,6 @@ const ExperienceSection: React.FC<ExperienceProps> = () => {
             transform: 'translate(-50%, -50%)',
           }}
         >
-          {/* Spinner only if not cached */}
           {imageLoading && (
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/70 shadow-2xl">
               <div className="h-6 w-6 animate-spin rounded-full border-2 border-zinc-400 border-t-pink-400"></div>
@@ -67,15 +72,13 @@ const ExperienceSection: React.FC<ExperienceProps> = () => {
       )}
 
       <div
-        className="relative z-20 flex h-full w-full max-w-6xl flex-col"
-        style={{ cursor: hoveredIndex !== null ? 'none' : 'default' }}
+        className="relative z-20 flex w-full max-w-6xl flex-col"
+        style={{ cursor: !isMobile && hoveredIndex !== null ? 'none' : 'default' }}
       >
         {/* Header */}
         <div className="bg-zinc-900 px-8 py-6">
           <GrainTexture opacity={0.3} blendMode="screen" />
-          <h2 className="bbh-sans-bogle-regular text-4xl font-bold text-white md:text-5xl">
-            WORK
-          </h2>
+          <h2 className="bbh-sans-bogle-regular text-4xl font-bold text-white md:text-5xl">WORK</h2>
         </div>
 
         {/* Experience List */}
@@ -84,8 +87,8 @@ const ExperienceSection: React.FC<ExperienceProps> = () => {
             <div
               key={index}
               className="group relative flex flex-1 border-b border-zinc-200 transition-all duration-300 last:border-b-0 hover:bg-zinc-50"
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
+              onMouseEnter={() => !isMobile && setHoveredIndex(index)}
+              onMouseLeave={() => !isMobile && setHoveredIndex(null)}
             >
               <div className="flex w-full flex-col justify-center px-6 py-6 md:flex-row md:justify-between md:gap-12">
                 {/* Left side */}
@@ -115,16 +118,18 @@ const ExperienceSection: React.FC<ExperienceProps> = () => {
           ))}
         </div>
 
-        {/* Bottom scrolling text */}
-        <div className="relative bg-white py-8">
-          <InfiniteScroll
-            text="EXPERIENCE"
-            baseVelocity={1.5}
-            textClassName="px-8 text-[5vw] font-bold leading-none"
-            textColor={colors.pinkAccent}
-            numCopies={8}
-          />
-        </div>
+        {/* Infinite Scroll — only for desktop */}
+        {!isMobile && (
+          <div className="relative bg-white py-8">
+            <InfiniteScroll
+              text="EXPERIENCE"
+              baseVelocity={1.5}
+              textClassName="px-8 text-[5vw] font-bold leading-none"
+              textColor={colors.pinkAccent}
+              numCopies={8}
+            />
+          </div>
+        )}
       </div>
     </section>
   );
