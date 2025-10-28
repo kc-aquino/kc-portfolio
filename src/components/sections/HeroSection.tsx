@@ -91,16 +91,16 @@ const HeroSection: React.FC<HeroProps> = ({ mousePos, scrollToSection, sections 
         <div className="flex flex-col flex-wrap items-center justify-center gap-4 sm:flex-row sm:gap-6">
           <button
             onClick={() => projectsRef && scrollToSection(projectsRef)}
-            className="inline-flex w-48 items-center justify-center gap-3 bg-white px-8 py-4 text-sm font-medium tracking-wider text-black transition-all duration-300 hover:bg-zinc-200"
+            className="inline-flex w-[65vw] max-w-[220px] items-center justify-center gap-3 bg-white px-6 py-3 text-xs font-medium tracking-wider text-black transition-all duration-300 hover:bg-zinc-200 sm:w-auto sm:px-8 sm:py-4 sm:text-sm"
           >
-            VIEW WORK <ChevronRight size={20} className="shrink-0 text-black" />
+            VIEW WORK <ChevronRight size={18} className="shrink-0 text-black" />
           </button>
 
           <button
             onClick={() => contactRef && scrollToSection(contactRef)}
-            className="inline-flex w-48 items-center justify-center gap-3 bg-white px-8 py-4 text-sm font-medium tracking-wider text-black transition-all duration-300 hover:bg-zinc-200"
+            className="inline-flex w-[65vw] max-w-[220px] items-center justify-center gap-3 bg-white px-6 py-3 text-xs font-medium tracking-wider text-black transition-all duration-300 hover:bg-zinc-200 sm:w-auto sm:px-8 sm:py-4 sm:text-sm"
           >
-            CONTACT ME <ChevronRight size={20} className="shrink-0 text-black" />
+            CONTACT ME <ChevronRight size={18} className="shrink-0 text-black" />
           </button>
         </div>
       </div>

@@ -15,20 +15,20 @@ export const experience: Experience[] = [
   {
     title: 'Junior Software Developer',
     company: 'Go8 Technology Inc.',
-    period: 'Apr 2025 - Oct 2025',
+    period: 'June 2025 - Oct 2025',
     location: 'Your Location',
     desc: 'Designing and developing responsive UIs for streaming platforms with focus on user experience',
     logo: go8Logo,
-    alt: 'Go8-logo'
+    alt: 'Go8-logo',
   },
   {
     title: 'Intern Software Developer',
     company: 'Go8 Technology Inc.',
-    period: 'Mar - May 2025',
+    period: 'Feb - May 2025',
     location: 'Your Location',
     desc: 'Full-stack development with ReactJS, React Native, Flutter with emphasis on UI implementation',
     logo: go8Logo,
-    alt: 'Go8-logo'
+    alt: 'Go8-logo',
   },
   {
     title: 'Graphic Designer Intern',
@@ -37,6 +37,6 @@ export const experience: Experience[] = [
     location: 'Your Location',
     desc: 'Java NC III certification internship focusing on visual design and user interfaces',
     logo: joysisOllopaLogo,
-    alt: 'Ollopa-logo'
+    alt: 'Ollopa-logo',
   },
 ];

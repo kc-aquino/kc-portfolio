@@ -2,6 +2,8 @@
 import cinepopThumbnail from '@/assets/projects/cinepop-home.png';
 import nxiThumbnail from '@/assets/projects/nxi-portal.png';
 import cimThumbnail from '@/assets/projects/cim-platform.png';
+import adspaceThumbnail from '@/assets/projects/adspace-web2.png';
+import smsThumbnail from '@/assets/projects/sms.png';
 
 export interface Project {
   id: string | number;
@@ -71,6 +73,7 @@ export const projects: Project[] = [
     techStack: ['React Native', 'Laravel'],
     thumbnail: '/thumbnails/adspace.png',
     role: 'UX Design & Mobile Development',
+    thumbnail: adspaceThumbnail,
   },
   {
     id: 5,
@@ -79,6 +82,7 @@ export const projects: Project[] = [
     techStack: ['Java', 'MySQL', 'PHP'],
     thumbnail: '/thumbnails/sms.png',
     role: 'Interface Design & Backend Integration',
+    thumbnail: smsThumbnail,
   },
 ];
 
