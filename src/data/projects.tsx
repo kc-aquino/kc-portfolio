@@ -70,8 +70,8 @@ export const projects: Project[] = [
     id: 4,
     title: 'Adspace',
     subtitle: 'Digital signage platform with role-based access control',
-    techStack: ['React Native', 'Laravel'],
-    role: 'UX Design & Mobile Development',
+    techStack: ['React Native', 'Laravel', 'JavaScript', 'TypeScript', 'PHP', 'Laravel'],
+    role: 'UX Web Design & Mobile Development',
     thumbnail: adspaceThumbnail,
   },
   {

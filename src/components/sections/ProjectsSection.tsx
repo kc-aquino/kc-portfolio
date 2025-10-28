@@ -60,7 +60,7 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onShowAllProjects }) 
           className={`flex ${
             isMobile
               ? 'flex-col items-center justify-start gap-4'
-              : 'items-start justify-between gap-8'
+              : 'relative w-full items-start justify-start gap-8'
           }`}
         >
           {/* Projects Grid */}
@@ -111,8 +111,8 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onShowAllProjects }) 
 
           {/* Circular "See More" Button */}
           <div
-            className={`flex cursor-pointer items-center justify-center ${
-              isMobile ? 'mt-2' : 'self-center'
+            className={`flex cursor-pointer items-center ${
+              isMobile ? 'mt-2 justify-center' : 'justify-end self-center pl-[7vw]'
             }`}
             onClick={onShowAllProjects}
           >

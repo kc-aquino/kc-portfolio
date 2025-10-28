@@ -163,11 +163,7 @@ const App = () => {
       {!isLoading && (
         <>
           {showAllProjectsPage ? (
-            <AllProjectsPage
-              projects={projects}
-              onBack={() => setShowAllProjectsPage(false)}
-              onSelectProject={setSelectedProject}
-            />
+            <AllProjectsPage projects={projects} onBack={() => setShowAllProjectsPage(false)} />
           ) : (
             <>
               <div

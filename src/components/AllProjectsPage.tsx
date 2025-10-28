@@ -16,10 +16,9 @@ interface Project {
 interface AllProjectsPageProps {
   projects: Project[];
   onBack: () => void;
-  onSelectProject?: (project: Project) => void;
 }
 
-const AllProjectsPage: React.FC<AllProjectsPageProps> = ({ projects, onBack, onSelectProject }) => {
+const AllProjectsPage: React.FC<AllProjectsPageProps> = ({ projects, onBack }) => {
   const [_hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const isMobile = useIsMobile();
 
@@ -72,10 +71,9 @@ const AllProjectsPage: React.FC<AllProjectsPageProps> = ({ projects, onBack, onS
                   isMobile ? 'p-4' : 'p-8'
                 }`}
                 onClick={() => {
+                  // Only open link or modal if there is a link
                   if (project.link) {
                     window.open(project.link, '_blank');
-                  } else if (onSelectProject) {
-                    onSelectProject(project);
                   }
                 }}
                 onMouseEnter={() => setHoveredIndex(index)}
